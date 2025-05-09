@@ -13,6 +13,9 @@ const catchAsyncError = require("../middleware/catchAsyncErrors.js");
 router.post("/create-user", upload.single("file"), async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
+    if (!req.file) {
+      return next(new ErrorHandler("Avatar image is required.", 400));
+    }
     const userEmail = await User.findOne({ email });
     if (userEmail) {
       const filename = req.file.filename;
@@ -94,9 +97,7 @@ router.post(
         avatar,
       });
 
-      // Save the user to the database
-      await user.save();
-
+ 
       sendToken(user, 201, res);
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));
