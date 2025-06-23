@@ -6,7 +6,7 @@ import axios from "axios";
 import {server} from "../../server"
 import { toast } from "react-toastify";
 
-const Login = () => {
+const ShopLogin = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,13 +15,14 @@ const Login = () => {
   const handleSubmit = async (e) =>{
     e.preventDefault();
    
-    await axios.post(`${server}/user/login-user`, {
+    await axios.post(`${server}/shop/login-shop`, {
       email,
       password,
     },{withCredentials:true}).then((res)=>{
       toast.success("Login successful");
-      navigate("/");
-      window.location.reload();
+      navigate("/dashboard");
+   
+      window.location.reload(true);
     }).catch((err)=>{
       toast.error(err.response.data.message);
     });
@@ -33,7 +34,7 @@ const Login = () => {
      <div className="border sm:mx-auto sm:w-full sm:max-w-md rounded-xl">
      <div className="">
         <h2 className="mt-2 text-center text-3xl font-extrabold text-gray-900">
-          Login to your account
+          Login to your shop
         </h2>
       </div>
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
@@ -125,7 +126,7 @@ const Login = () => {
             </div>
             <div className={`${styles.noramlFlex} text-[14px] w-full`}>
               <h4>Not have any account?</h4>
-              <Link to="/signup" className="text-blue-600 font-semibold pl-2">
+              <Link to="/shop-create" className="text-blue-600 font-semibold pl-2">
                 Sign Up
               </Link>
             </div>
@@ -137,4 +138,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ShopLogin;
