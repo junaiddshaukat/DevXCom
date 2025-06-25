@@ -6,6 +6,7 @@ import { IoIosArrowForward } from "react-icons/io"
 import { BiMenuAltLeft } from "react-icons/bi"
 import { CgProfile } from "react-icons/cg"
 import { useSelector } from "react-redux"
+import { server } from "../../server"
 
 const styles = {
   section: "w-11/12 mx-auto",
@@ -43,7 +44,7 @@ const Header = () => {
     }
   }, [])
 
-  console.log("User:", user)
+  // console.log("User:", user)
 
   return (
     <>
@@ -76,10 +77,13 @@ const Header = () => {
           <div className={`${styles.normalFlex}`}></div>
           <div className="flex">
             <div className={`${styles.normalFlex}`}>
-              <div className="relative cursor-pointer mr-[15px]">
-                {isAuthenticated ? (
+              <div className="relative cursor-pointer mr-[15px]"> {isAuthenticated ? (
                   <Link to="/profile">
-                    <img src={`${user?.avatar?.url}`} className="w-[35px] h-[35px] rounded-full" alt="User" />
+                    <img 
+                      src={user?.avatar?.url} 
+                      className="w-[35px] h-[35px] rounded-full object-cover" 
+                      alt="User" 
+                    />
                   </Link>
                 ) : (
                   <Link to="/login">
@@ -117,14 +121,13 @@ const Header = () => {
         {open && (
           <div className={`fixed w-full bg-[#0000005f] z-20 h-full top-0 left-0`}>
             <div className="fixed w-[70%] bg-[#fff] h-screen top-0 left-0 z-10 overflow-y-scroll">
-              <div className="flex w-full justify-center mt-8">
-                {isAuthenticated ? (
+              <div className="flex w-full justify-center mt-8">                {isAuthenticated ? (
                   <div>
                     <Link to="/profile">
                       <img
-                        src={`${user?.avatar?.url}`}
+                        src={user?.avatar?.url}
                         alt="User"
-                        className="w-[60px] h-[60px] rounded-full border-[3px] border-[#0eae88]"
+                        className="w-[60px] h-[60px] rounded-full border-[3px] border-[#0eae88] object-cover"
                       />
                     </Link>
                   </div>

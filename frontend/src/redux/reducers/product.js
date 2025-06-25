@@ -24,33 +24,33 @@ export const productReducer = createReducer(initialState, (builder) => {
     })
 
     //get all product of shop
-    // .addCase("getAllProductShopRequest", (state) => {
-    //   state.isLoading = true;
-    // })
-    // .addCase("getAllProductShopSuccess", (state, action) => {
-    //   state.isLoading = false;
-    //   state.products = action.payload;
+    .addCase("getAllProductShopRequest", (state) => {
+      state.isLoading = true;
+    })
+    .addCase("getAllProductShopSuccess", (state, action) => {
+      state.isLoading = false;
+      state.products = action.payload;
 
-    // })
-    // .addCase("getAllProductShopFailed", (state, action) => {
-    //   state.isLoading = false;
-    //   state.error = action.payload;
+    })
+    .addCase("getAllProductShopFailed", (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
 
-    // })
-    // // delete product of a shop
-    // .addCase("deleteProductRequest", (state) => {
-    //   state.isLoading = true;
-    // })
-    // .addCase("deleteProductSuccess", (state, action) => {
-    //   state.isLoading = false;
-    //   state.message = action.payload;
+    })
+    // delete product of a shop
+    .addCase("deleteProductRequest", (state) => {
+      state.isLoading = true;
+    })
+    .addCase("deleteProductSuccess", (state, action) => {
+      state.isLoading = false;
+      state.message = action.payload;
 
-    // })
-    // .addCase("deleteProductFailed", (state, action) => {
-    //   state.isLoading = false;
-    //   state.error = action.payload;
+    })
+    .addCase("deleteProductFailed", (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
 
-    // })
+    })
 
     
     // // get all products

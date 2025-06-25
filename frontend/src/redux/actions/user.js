@@ -23,21 +23,25 @@ export const loadUser = () => async (dispatch) => {
 
 //load seller 
 
-
 export const loadSeller = () => async (dispatch) => {
   try {
+    // console.log("🔄 Dispatching LoadSellerRequest...");
     dispatch({ type: "LoadSellerRequest" });
 
     const { data } = await axios.get(`${server}/shop/getSeller`, { withCredentials: true });
+
+    // console.log("✅ Seller data received:", data);
+    // console.log("🚀 Dispatching LoadSellerSuccess with payload:", data.seller);
 
     dispatch({
       type: "LoadSellerSuccess",
       payload: data.seller,
     });
   } catch (error) {
+    // console.log("❌ loadSeller failed:", error.response?.data?.message || error.message);
     dispatch({
       type: "LoadSellerFail",
-      payload: error.response.data.message,
+      payload: error.response?.data?.message || "Failed to load seller",
     });
   }
 }

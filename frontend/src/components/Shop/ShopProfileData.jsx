@@ -1,56 +1,27 @@
-// import React, { useEffect, useState } from "react";
-// import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-
+import { getAllProductShop } from "../../redux/actions/product";
 import styles from "../../styles/styles";
 import ProductCard from "../Route/ProductCard/ProductCard";
-import Ratings from "../Products/Ratings.jsx";
-
-// import { getAllEventsShop } from "../../redux/actions/eventAction";
+import Ratings from "../Products/Ratings";
+import { getAllEventsShop } from "../../redux/actions/event";
 
 const ShopProfileData = ({ isOwner }) => {
-//  const { products } = useSelector((state) => state.product);
+  const { products } = useSelector((state) => state.products);
+  const { events } = useSelector((state) => state.event);
+  const { id } = useParams();
+  const dispatch = useDispatch();
 
-//  const { events } = useSelector((state) => state.event);
+  useEffect(() => {
+    dispatch(getAllProductShop(id));
+    dispatch(getAllEventsShop(id));
+  }, [dispatch]);
 
+  const [active, setActive] = useState(1);
 
-//  const getTimeAgo = (dateString) => {
-//   const now = new Date();
-//   const date = new Date(dateString);
-//   const diffInSeconds = Math.floor((now - date) / 1000);
-
-//   if (diffInSeconds < 60) {
-//     return `${diffInSeconds} second${diffInSeconds !== 1 ? 's' : ''} ago`;
-//   }
-
-//   const diffInMinutes = Math.floor(diffInSeconds / 60);
-//   if (diffInMinutes < 60) {
-//     return `${diffInMinutes} minute${diffInMinutes !== 1 ? 's' : ''} ago`;
-//   }
-
-//   const diffInHours = Math.floor(diffInMinutes / 60);
-//   if (diffInHours < 24) {
-//     return `${diffInHours} hour${diffInHours !== 1 ? 's' : ''} ago`;
-//   }
-
-//   const diffInDays = Math.floor(diffInHours / 24);
-//   if (diffInDays < 30) {
-//     return `${diffInDays} day${diffInDays !== 1 ? 's' : ''} ago`;
-//   }
-
-//   const diffInMonths = Math.floor(diffInDays / 30);
-//   if (diffInMonths < 12) {
-//     return `${diffInMonths} month${diffInMonths !== 1 ? 's' : ''} ago`;
-//   }
-
-//   const diffInYears = Math.floor(diffInMonths / 12);
-//   return `${diffInYears} year${diffInYears !== 1 ? 's' : ''} ago`;
-// };
-
-//   const [active, setActive] = useState(1);
-
-//   const allReviews =
-//     products && products.map((product) => product.reviews).flat();
+  const allReviews =
+    products && products.map((product) => product.reviews).flat();
 
   return (
     <div className="w-full">
@@ -129,36 +100,33 @@ const ShopProfileData = ({ isOwner }) => {
         </div>
       )}
 
-{active === 3 && (
-  <div className="w-full">
-    {allReviews && allReviews.length > 0 ? (
-      allReviews.map((item, index) => (
-        <div className="w-full flex my-4" key={index}>
-          <img
-            src={`${item.user.avatar?.url}`}
-            className="w-[50px] h-[50px] rounded-full"
-            alt=""
-          />
-          <div className="pl-2">
-            <div className="flex w-full items-center">
-              <h1 className="font-[600] pr-2">{item.user.name}</h1>
-              <Ratings rating={item.rating} />
-            </div>
-            <p className="font-[400] text-[#000000a7]">{item?.comment}</p>
-            <p className="text-[#000000a7] text-[14px]">
-              {getTimeAgo(item.createdAt)}
-            </p>
-          </div>
+      {active === 3 && (
+        <div className="w-full">
+          {allReviews &&
+            allReviews.map((item, index) => (
+              <div className="w-full flex my-4">
+                <img
+                  src={`${item.user.avatar?.url}`}
+                  className="w-[50px] h-[50px] rounded-full"
+                  alt=""
+                />
+                <div className="pl-2">
+                  <div className="flex w-full items-center">
+                    <h1 className="font-[600] pr-2">{item.user.name}</h1>
+                    <Ratings rating={item.rating} />
+                  </div>
+                  <p className="font-[400] text-[#000000a7]">{item?.comment}</p>
+                  <p className="text-[#000000a7] text-[14px]">{"2days ago"}</p>
+                </div>
+              </div>
+            ))}
+          {allReviews && allReviews.length === 0 && (
+            <h5 className="w-full text-center py-5 text-[18px]">
+              No Reviews have for this shop!
+            </h5>
+          )}
         </div>
-      ))
-    ) : (
-      <h5 className="w-full text-center py-5 text-[18px]">
-        No Reviews have for this shop!
-      </h5>
-    )}
-  </div>
-)}
-
+      )}
     </div>
   );
 };

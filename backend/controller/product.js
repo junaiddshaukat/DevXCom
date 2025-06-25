@@ -5,6 +5,8 @@ const Shop = require("../model/shop.js");
 const Product = require("../model/product.js");
 const router = express.Router();
 const { upload } = require("../multer");
+const { isSeller } = require("../middleware/auth");
+const fs = require("fs");
 //create product
 
 router.post(
@@ -37,5 +39,54 @@ router.post(
     }
   })
 );
+
+//get all product 
+
+router.get("/get-all-products-shop/:shopId", catchAsyncErrors(async (req, res, next) => {
+  try {
+    const products = await Product.find({ shopId: req.params.shopId });   
+    
+    res.status(200).json({
+      success: true,
+      products: products.length > 0 ? products : [],
+      message: products.length > 0 ? undefined : "No products found for this shop",
+    }); 
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 500));
+  } 
+}));
+    
+//delete product of a shop
+
+router.delete("/delete-shop-product/:id",isSeller, catchAsyncErrors(async (req, res, next) => {
+  try {
+    const productData = await Product.findById(req.params.id);
+    
+    if (!productData) {
+      return next(new ErrorHandler("Product not found", 404));
+    }
+
+    productData.images.forEach((imageUrl)=>{
+      const filename = imageUrl;
+      const filePath = `uploads/${filename}`;
+      fs.unlink(filePath, (err) => {
+        if (err) {
+          console.error(`Error deleting file ${filePath}:`, err);
+        } else {
+          console.log(`File ${filePath} deleted successfully`);
+        }
+      });
+    })
+
+    const product = await Product.findByIdAndDelete(req.params.id);
+
+    res.status(200).json({
+      success: true,
+      message: "Product deleted successfully",
+    });
+  } catch (error) {
+    return next(new ErrorHandler("error in the delete route",error.message, 500));
+  }
+}));
 
 module.exports = router;
