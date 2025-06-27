@@ -76,13 +76,16 @@ const Header = () => {
         <div className={`${styles.section} relative ${styles.normalFlex} justify-between`}>
           <div className={`${styles.normalFlex}`}></div>
           <div className="flex">
-            <div className={`${styles.normalFlex}`}>
-              <div className="relative cursor-pointer mr-[15px]"> {isAuthenticated ? (
+            <div className={`${styles.normalFlex}`}>              <div className="relative cursor-pointer mr-[15px]"> {isAuthenticated ? (
                   <Link to="/profile">
                     <img 
-                      src={user?.avatar?.url} 
+                      src={user?.avatar?.url || `${window.location.protocol}//${window.location.hostname}:8000/${user?.avatar}`}
                       className="w-[35px] h-[35px] rounded-full object-cover" 
                       alt="User" 
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = "https://placehold.co/600x40035";
+                      }}
                     />
                   </Link>
                 ) : (
@@ -125,9 +128,13 @@ const Header = () => {
                   <div>
                     <Link to="/profile">
                       <img
-                        src={user?.avatar?.url}
+                        src={user?.avatar?.url || `${window.location.protocol}//${window.location.hostname}:8000/${user?.avatar}`}
                         alt="User"
                         className="w-[60px] h-[60px] rounded-full border-[3px] border-[#0eae88] object-cover"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = "https://placehold.co/600x40060";
+                        }}
                       />
                     </Link>
                   </div>

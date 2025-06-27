@@ -13,12 +13,17 @@ const ProductCard = ({ data, isEvent }) => {
   return (
     <>
       <div className="w-full h-[370px] bg-white rounded-lg shadow-sm p-3 relative cursor-pointer">
-        <div className="flex justify-end"></div>
-        <Link to={`${isEvent === true ? `/product/${data._id}?isEvent=true` : `/product/${data._id}`}`}>
+        <div className="flex justify-end"></div>        <Link to={`${isEvent === true ? `/product/${data._id}?isEvent=true` : `/product/${data._id}`}`}>
           <img
-            src={`${data.images && data.images[0]?.url}`}
+            src={data.images && data.images[0]?.url 
+              ? data.images[0].url
+              : `${window.location.protocol}//${window.location.hostname}:8000/${data.images && data.images[0]}`}
             alt=""
             className="w-full h-[170px] object-contain"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = "https://placehold.co/600x400170?text=Product+Image";
+            }}
           />
         </Link>
         <Link to={`/shop/preview/${data?.shop._id}`}>

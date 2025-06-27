@@ -235,7 +235,7 @@ export const navItems = [
       id: 7,
       title: "Pet Care",
       subTitle: "",
-      image_Url: "https://cdn.openpr.com/T/c/Tc15444071_g.jpg",
+      image_Url: "",
     },
     {
       id: 8,

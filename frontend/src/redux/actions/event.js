@@ -75,7 +75,7 @@ export const getAllEvents = () => async (dispatch) => {
       type: "getAlleventsRequest",
     });
 
-    const { data } = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/event/get-all-events`);
+    const { data } = await axios.get(`${server}/event/get-all-events`);
     dispatch({
       type: "getAlleventsSuccess",
       payload: data.events,

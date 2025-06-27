@@ -42,11 +42,16 @@ const ShopInfo = ({ isOwner }) => {
       ) : (
         <div>
           <div className="w-full py-5"></div>
-          <div className="w-full flex items-center justify-center">
-            <img
-              src={`${data.avatar?.url}`}
+          <div className="w-full flex items-center justify-center">            <img
+              src={data.avatar?.url 
+                ? data.avatar.url 
+                : `${window.location.protocol}//${window.location.hostname}:8000/${data.avatar}`}
               alt=""
               className="w-[150px] h-[150px] object-cover rounded-full"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = "https://placehold.co/600x400150?text=Shop";
+              }}
             />
           </div>
           <h3 className="text-center py-2 text-[20px]">{data.name}</h3>

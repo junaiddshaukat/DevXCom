@@ -104,11 +104,16 @@ const ShopProfileData = ({ isOwner }) => {
         <div className="w-full">
           {allReviews &&
             allReviews.map((item, index) => (
-              <div className="w-full flex my-4">
-                <img
-                  src={`${item.user.avatar?.url}`}
-                  className="w-[50px] h-[50px] rounded-full"
+              <div className="w-full flex my-4">                <img
+                  src={item.user.avatar?.url 
+                    ? item.user.avatar.url 
+                    : `${window.location.protocol}//${window.location.hostname}:8000/${item.user.avatar}`}
+                  className="w-[50px] h-[50px] rounded-full object-cover"
                   alt=""
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = "https://placehold.co/600x40050?text=User";
+                  }}
                 />
                 <div className="pl-2">
                   <div className="flex w-full items-center">

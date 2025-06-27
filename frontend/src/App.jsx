@@ -30,6 +30,8 @@ import {
   ShopPreviewPage
 } from "./ShopRoutes.js";
 import SellerProtectedRoute from "../routes/SellerProtectedRoute.jsx";
+import { getAllProducts } from "./redux/actions/product.js";
+import { getAllEvents } from "./redux/actions/event.js";
 
 const App = () => {
   const { loading } = useSelector((state) => state.user);
@@ -38,6 +40,8 @@ const App = () => {
   useEffect(() => {
     Store.dispatch(loadUser());
     Store.dispatch(loadSeller());
+    Store.dispatch(getAllProducts());
+    Store.dispatch(getAllEvents())
   }, []);
 
   // console.log("this",isSeller, seller);

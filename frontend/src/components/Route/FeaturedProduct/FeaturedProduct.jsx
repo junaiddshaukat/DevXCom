@@ -1,33 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
+import styles from "../../../styles/styles";
+import ProductCard from "../ProductCard/ProductCard";
 
 const FeaturedProduct = () => {
-    return (
-        <div style={{ padding: "2rem" }}>
-            <h1 style={{ fontSize: "2rem", marginBottom: "1.5rem" }}>Featured Products</h1>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "1.5rem" }}>
-                <div style={{ border: "1px solid #eee", padding: "1rem", borderRadius: "8px", background: "#fafafa" }}>
-                    <div style={{ height: "120px", background: "#ddd", borderRadius: "4px", marginBottom: "1rem" }} />
-                    <h2 style={{ fontSize: "1.1rem", margin: 0 }}>Product Name</h2>
-                    <p style={{ color: "#888", margin: "0.5rem 0 0 0" }}>$99.99</p>
-                </div>
-                <div style={{ border: "1px solid #eee", padding: "1rem", borderRadius: "8px", background: "#fafafa" }}>
-                    <div style={{ height: "120px", background: "#ddd", borderRadius: "4px", marginBottom: "1rem" }} />
-                    <h2 style={{ fontSize: "1.1rem", margin: 0 }}>Product Name</h2>
-                    <p style={{ color: "#888", margin: "0.5rem 0 0 0" }}>$99.99</p>
-                </div>
-                <div style={{ border: "1px solid #eee", padding: "1rem", borderRadius: "8px", background: "#fafafa" }}>
-                    <div style={{ height: "120px", background: "#ddd", borderRadius: "4px", marginBottom: "1rem" }} />
-                    <h2 style={{ fontSize: "1.1rem", margin: 0 }}>Product Name</h2>
-                    <p style={{ color: "#888", margin: "0.5rem 0 0 0" }}>$99.99</p>
-                </div>
-                <div style={{ border: "1px solid #eee", padding: "1rem", borderRadius: "8px", background: "#fafafa" }}>
-                    <div style={{ height: "120px", background: "#ddd", borderRadius: "4px", marginBottom: "1rem" }} />
-                    <h2 style={{ fontSize: "1.1rem", margin: 0 }}>Product Name</h2>
-                    <p style={{ color: "#888", margin: "0.5rem 0 0 0" }}>$99.99</p>
-                </div>
-            </div>
+  const {allProducts} = useSelector((state) => state.products);
+   
+  return (
+    <div>
+      <div className={`${styles.section}`}>
+        <div className={`${styles.heading}`}>
+          <h1>Featured Products</h1>
         </div>
-    );
+        <div className="grid grid-cols-1 gap-[20px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-4 lg:gap-[25px] xl:grid-cols-5 xl:gap-[30px] mb-12 border-0">
+        {
+            allProducts && allProducts.length !== 0 &&(
+              <>
+               {allProducts && allProducts.map((i, index) => <ProductCard data={i} key={index} />)}
+              </>
+            )
+           }
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default FeaturedProduct;

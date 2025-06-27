@@ -1,7 +1,8 @@
 import React from "react";
 import styles from "../../styles/styles";
-import CountDown from "./Countdown";
+import CountDown from "./Countdown.jsx";
 import { Link } from "react-router-dom";
+import { backendUrl } from "../../server.js";
 
 const EventCard = ({ active, data }) => {
     return (
@@ -11,10 +12,7 @@ const EventCard = ({ active, data }) => {
             } lg:flex p-2`}
         >
             <div className="w-full lg:-w[50%] m-auto">
-                <img
-                    src={`${data.images && data.images[0]?.url}`}
-                    alt=""
-                />
+                <img src={`${backendUrl}${data.images[0]}`} alt="" />
             </div>
             <div className="w-full lg:[w-50%] flex flex-col justify-center">
                 <h2 className={`${styles.productTitle}`}>{data.name}</h2>
@@ -38,9 +36,6 @@ const EventCard = ({ active, data }) => {
                     <Link to={`/product/${data._id}?isEvent=true`}>
                         <div className={`${styles.button} text-[#fff]`}>See Details</div>
                     </Link>
-                    <div className={`${styles.button} text-[#fff] ml-5`}>
-                        Add to cart
-                    </div>
                 </div>
             </div>
         </div>

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { server } from "../../server";
 
+
 // create product
 
 export const createProduct = (newForm) => async (dispatch) => {
@@ -27,7 +28,7 @@ export const createProduct = (newForm) => async (dispatch) => {
 };
 
 
-// get all products
+// get all products of the shop
 
 export const getAllProductShop = (id) => async (dispatch) => {
   try {
@@ -71,4 +72,23 @@ export const deleteProduct = (id) => async (dispatch) => {
       payload: error.response.data.message,
     });
   }
-}
+};
+// get all products
+export const getAllProducts = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: "getAllProductsRequest",
+    });
+
+    const { data } = await axios.get(`${server}/product/get-all-products`);
+    dispatch({
+      type: "getAllProductsSuccess",
+      payload: data.products,
+    });
+  } catch (error) {
+    dispatch({
+      type: "getAllProductsFailed",
+      payload: error.response.data.message,
+    });
+  }
+};

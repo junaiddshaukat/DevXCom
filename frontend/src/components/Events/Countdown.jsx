@@ -1,7 +1,6 @@
-
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-// import { server } from "../../server";
+import { server } from "../../server";
 
 const CountDown = ({ data }) => {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
@@ -12,12 +11,12 @@ const CountDown = ({ data }) => {
     }, 1000);
 
     if (
-      typeof timeLeft.days === "undefined" &&
-      typeof timeLeft.hours === "undefined" &&
-      typeof timeLeft.minutes === "undefined" &&
-      typeof timeLeft.seconds === "undefined"
+      typeof timeLeft.days === 'undefined' &&
+      typeof timeLeft.hours === 'undefined' &&
+      typeof timeLeft.minutes === 'undefined' &&
+      typeof timeLeft.seconds === 'undefined'
     ) {
-    //   axios.delete(`${server}/event/delete-shop-event/${data._id}`);
+      axios.delete(`${server}/event/delete-shop-event/${data._id}`);
     }
     return () => clearTimeout(timer);
   });
@@ -44,9 +43,8 @@ const CountDown = ({ data }) => {
     }
 
     return (
-      <span className="text-[25px] text-[#475ad2]" key={interval}>
-        {timeLeft[interval]} {interval}
-        <span> </span>
+      <span className="text-[25px] text-[#475ad2]">
+        {timeLeft[interval]} {interval}{" "}
       </span>
     );
   });

@@ -28,21 +28,40 @@ const ProductDetailsCard = ({ setOpen, data }) => {
             />
 
             <div className="block w-full 800px:flex">
-              <div className="w-full 800px:w-[50%]">
-                <img src={`${data.images && data.images[0]?.url}`} alt="" />
+              <div className="w-full 800px:w-[50%]">                <img 
+                  src={data.images && data.images[0]?.url 
+                    ? data.images[0].url
+                    : `${window.location.protocol}//${window.location.hostname}:8000/${data.images && data.images[0]}`} 
+                  alt="" 
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = "https://placehold.co/600x400400?text=Product+Image";
+                  }}
+                />
                 <div className="flex">
                   <Link to={`/shop/preview/${data.shop._id}`} className="flex">
                     <img
-                      src={`${data.image_Url && data.image_Url[0]?.url}`}
+                      src={data.image_Url && data.image_Url[0]?.url 
+                        ? data.image_Url[0].url
+                        : `${window.location.protocol}//${window.location.hostname}:8000/${data.image_Url && data.image_Url[0]}`}
                       alt=""
                       className="w-full h-[170px] object-contain"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = "https://placehold.co/600x400170?text=Product+Image";
+                      }}
                     />
                     <div>
-                      <div>
-                        <img
-                          src={`${data.shop.avatar && data.shop.avatar.url}`}
+                      <div>                        <img
+                          src={data.shop.avatar && data.shop.avatar.url 
+                            ? data.shop.avatar.url
+                            : `${window.location.protocol}//${window.location.hostname}:8000/${data.shop.avatar}`}
                           alt=""
-                          className="w-[50px] h-[50px] rounded-full"
+                          className="w-[50px] h-[50px] rounded-full object-cover"
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = "https://placehold.co/600x40050?text=Shop";
+                          }}
                         />
                       </div>
                       <h3 className={`${styles.shop_name}`}>

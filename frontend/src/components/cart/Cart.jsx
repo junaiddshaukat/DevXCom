@@ -14,7 +14,7 @@ const sampleCart = [
         qty: 2,
         discountPrice: 50,
         stock: 5,
-        images: [{ url: "https://via.placeholder.com/130" }],
+        images: [{ url: "https://placehold.co/600x400130" }],
     },
     {
         id: 2,
@@ -22,7 +22,7 @@ const sampleCart = [
         qty: 1,
         discountPrice: 30,
         stock: 3,
-        images: [{ url: "https://via.placeholder.com/130" }],
+        images: [{ url: "https://placehold.co/600x400130" }],
     },
 ];
 
