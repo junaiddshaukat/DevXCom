@@ -13,7 +13,7 @@ const HomePage = () => {
      <Header/>
       <Hero/>
       <Categories/>
-      {/* <BestDeals/> */}
+      <BestDeals/>
       <FeaturedProduct/>
       <Events/>
       <Sponsored/>

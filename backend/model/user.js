@@ -20,14 +20,13 @@ const userSchema = new mongoose.Schema({
     minLength: [4, "Password should be greater than 4 characters"],
     select: false,
   },
-  // phoneNumber: {
-  //   type: Number,
-  //   trim: true,
-  // },
-  address: [
+  phoneNumber: {
+    type: Number,
+  },
+  addresses: [
     {
       country: { type: String },
-      city: { type: String },
+      city: { type: String }, 
       address1: { type: String },
       address2: { type: String },
       zipCode: { type: String },

@@ -10,10 +10,12 @@ import {
   FAQPage,
   SellerActivationPage,
   ShopLoginPage,
+  ProductDetailsPage,
+  ProfilePage
 } from "./Routes.js";
 import { ToastContainer } from "react-toastify";
 import { useEffect } from "react";
-
+import ProtectedRoute from "../routes/ProtectedRoute.jsx";
 import Store from "./redux/store.js";
 import { loadSeller, loadUser } from "./redux/actions/user.js";
 import { useSelector } from "react-redux";
@@ -61,11 +63,21 @@ const App = () => {
           element={<SellerActivationPage />}
         />
         <Route path="/products" element={<ProductsPage />} />
+          <Route path="/product/:id" element={<ProductDetailsPage />} />
         <Route path="/best-selling" element={<BestSellingPage />} />
         <Route path="/events" element={<EventsPage />} />
         <Route path="/faq" element={<FAQPage />} />
 
         <Route path="/shop/preview/:id" element={<ShopPreviewPage />} />
+
+         <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
 
         {/* Shop Routes */}
         <Route path="/shop-create" element={<ShopCreatePage />} />

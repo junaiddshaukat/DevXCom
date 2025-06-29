@@ -180,4 +180,57 @@ router.post(
   })
 );
 
+//update user info
+
+router.put("update-user-info",isAuthenticated, catchAsyncError(async(req,res,next)=>{
+  try {
+    
+    const {email,password,phoneNumber,name} = req.body;
+    const user = await User.findOne({eamil}).select("+password");
+
+    if(!user) {
+      return next(new ErrorHandler("User not found", 404));
+    }
+
+    const isPasswordValid = await user.comparePassword(password);
+
+    if(!isPasswordValid) {
+      return next(new ErrorHandler("Invalid password", 401));
+    }
+    
+    user.name = name;
+    user.email = email;
+    user.phoneNumber = phoneNumber;
+
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: "User information updated successfully",
+      user,
+    });
+
+    
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 500));
+  }
+}));
+
+//update user avatar
+
+router.put("/update-avatar",isAuthenticated,upload.single("image"), catchAsyncError(async(req,res,next)=>{
+
+  try {
+    
+    
+  } catch (error) {
+    return next(new ErrorHandler(error.message, 500));
+
+  }
+
+}))
+
+
 module.exports = router;
+
+ 

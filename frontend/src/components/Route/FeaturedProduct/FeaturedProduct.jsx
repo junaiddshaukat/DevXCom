@@ -8,6 +8,7 @@ const FeaturedProduct = () => {
    
   return (
     <div>
+      
       <div className={`${styles.section}`}>
         <div className={`${styles.heading}`}>
           <h1>Featured Products</h1>

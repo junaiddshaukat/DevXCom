@@ -1,24 +1,43 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useSearchParams } from "react-router-dom";
+import Header from "../components/Layout/Header";
+import Loader from "../components/Layout/Loader";
+import ProductCard from "../components/Route/ProductCard/ProductCard";
+import styles from "../styles/styles";
+import Footer from "../components/Layout/Footer";
 
-const bestSellingProducts = [
-    { id: 1, name: 'Wireless Headphones', price: '$99', image: 'https://placehold.co/600x400150' },
-    { id: 2, name: 'Smart Watch', price: '$149', image: 'https://placehold.co/600x400150' },
-    { id: 3, name: 'Bluetooth Speaker', price: '$79', image: 'https://placehold.co/600x400150' },
-];
+const BestSellingPage = () => {
+  const [data, setData] = useState([]);
+  const {allProducts,isLoading} = useSelector((state) => state.products);
 
-const BestSellingPage = () => (
-    <div style={{ padding: '2rem' }}>
-        <h1>Best Selling Products</h1>
-        <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
-            {bestSellingProducts.map(product => (
-                <div key={product.id} style={{ border: '1px solid #eee', borderRadius: 8, padding: '1rem', width: 200, textAlign: 'center' }}>
-                    <img src={product.image} alt={product.name} style={{ width: '100%', borderRadius: 4 }} />
-                    <h2 style={{ fontSize: '1.1rem' }}>{product.name}</h2>
-                    <p style={{ fontWeight: 'bold' }}>{product.price}</p>
-                </div>
-            ))}
+  useEffect(() => {
+    const allProductsData = allProducts ? [...allProducts] : [];
+    const sortedData = allProductsData?.sort((a,b) => b.sold_out - a.sold_out); 
+    setData(sortedData);
+  }, [allProducts]);
+
+  return (
+   <>
+   {
+    isLoading ? (
+      <Loader />
+    ) : (
+      <div>
+      <Header activeHeading={2} />
+      <br />
+      <br />
+      <div className={`${styles.section}`}>
+        <div className="grid grid-cols-1 gap-[20px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-4 lg:gap-[25px] xl:grid-cols-5 xl:gap-[30px] mb-12">
+          {data && data.map((i, index) => <ProductCard data={i} key={index} />)}
         </div>
+      </div>
+      <Footer />
     </div>
-);
+    )
+   }
+   </>
+  );
+};
 
 export default BestSellingPage;

@@ -1,10 +1,30 @@
-import React, { useState } from "react";
-import { AiOutlineMessage } from "react-icons/ai";
+import React, { useEffect, useState } from "react";
+import {
+  AiFillHeart,
+  AiOutlineHeart,
+  AiOutlineMessage,
+  AiOutlineShoppingCart,
+} from "react-icons/ai";
 import { RxCross1 } from "react-icons/rx";
 import { Link } from "react-router-dom";
 import styles from "../../../styles/styles";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { addToCart } from "../../../redux/actions/cart";
+import {
+  addToWishlist,
+  removeFromWishlist,
+} from "../../../redux/actions/wishlist";
+
 const ProductDetailsCard = ({ setOpen, data }) => {
+  const { cart } = useSelector((state) => state.cart);
+  const { wishlist } = useSelector((state) => state.wishlist);
+  const dispatch = useDispatch();
   const [count, setCount] = useState(1);
+  const [click, setClick] = useState(false);
+  //   const [select, setSelect] = useState(false);
+
+  const handleMessageSubmit = () => {};
 
   const decrementCount = () => {
     if (count > 1) {
@@ -14,6 +34,39 @@ const ProductDetailsCard = ({ setOpen, data }) => {
 
   const incrementCount = () => {
     setCount(count + 1);
+  };
+
+  const addToCartHandler = (id) => {
+    const isItemExists = cart && cart.find((i) => i._id === id);
+    if (isItemExists) {
+      toast.error("Item already in cart!");
+    } else {
+      if (data.stock < count) {
+        toast.error("Product stock limited!");
+      } else {
+        const cartData = { ...data, qty: count };
+        dispatch(addToCart(cartData));
+        toast.success("Item added to cart successfully!");
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (wishlist && wishlist.find((i) => i._id === data._id)) {
+      setClick(true);
+    } else {
+      setClick(false);
+    }
+  }, [wishlist]);
+
+  const removeFromWishlistHandler = (data) => {
+    setClick(!click);
+    dispatch(removeFromWishlist(data));
+  };
+
+  const addToWishlistHandler = (data) => {
+    setClick(!click);
+    dispatch(addToWishlist(data));
   };
 
   return (
@@ -28,53 +81,26 @@ const ProductDetailsCard = ({ setOpen, data }) => {
             />
 
             <div className="block w-full 800px:flex">
-              <div className="w-full 800px:w-[50%]">                <img 
-                  src={data.images && data.images[0]?.url 
-                    ? data.images[0].url
-                    : `${window.location.protocol}//${window.location.hostname}:8000/${data.images && data.images[0]}`} 
-                  alt="" 
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = "https://placehold.co/600x400400?text=Product+Image";
-                  }}
-                />
+              <div className="w-full 800px:w-[50%]">
+                <img src={`${data.images && data.images[0]?.url}`} alt="" />
                 <div className="flex">
                   <Link to={`/shop/preview/${data.shop._id}`} className="flex">
                     <img
-                      src={data.image_Url && data.image_Url[0]?.url 
-                        ? data.image_Url[0].url
-                        : `${window.location.protocol}//${window.location.hostname}:8000/${data.image_Url && data.image_Url[0]}`}
+                      src={`${data.images && data.images[0]?.url}`}
                       alt=""
-                      className="w-full h-[170px] object-contain"
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = "https://placehold.co/600x400170?text=Product+Image";
-                      }}
+                      className="w-[50px] h-[50px] rounded-full mr-2"
                     />
                     <div>
-                      <div>                        <img
-                          src={data.shop.avatar && data.shop.avatar.url 
-                            ? data.shop.avatar.url
-                            : `${window.location.protocol}//${window.location.hostname}:8000/${data.shop.avatar}`}
-                          alt=""
-                          className="w-[50px] h-[50px] rounded-full object-cover"
-                          onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.src = "https://placehold.co/600x40050?text=Shop";
-                          }}
-                        />
-                      </div>
                       <h3 className={`${styles.shop_name}`}>
                         {data.shop.name}
                       </h3>
-                      <h5 className="pb-3 text-[15px]">
-                        {data?.rating} Ratings
-                      </h5>
+                      <h5 className="pb-3 text-[15px]">{data?.ratings} Ratings</h5>
                     </div>
                   </Link>
                 </div>
                 <div
                   className={`${styles.button} bg-[#000] mt-4 rounded-[4px] h-11`}
+                  onClick={handleMessageSubmit}
                 >
                   <span className="text-[#fff] flex items-center">
                     Send Message <AiOutlineMessage className="ml-1" />
@@ -115,6 +141,32 @@ const ProductDetailsCard = ({ setOpen, data }) => {
                       +
                     </button>
                   </div>
+                  <div>
+                    {click ? (
+                      <AiFillHeart
+                        size={30}
+                        className="cursor-pointer"
+                        onClick={() => removeFromWishlistHandler(data)}
+                        color={click ? "red" : "#333"}
+                        title="Remove from wishlist"
+                      />
+                    ) : (
+                      <AiOutlineHeart
+                        size={30}
+                        className="cursor-pointer"
+                        onClick={() => addToWishlistHandler(data)}
+                        title="Add to wishlist"
+                      />
+                    )}
+                  </div>
+                </div>
+                <div
+                  className={`${styles.button} mt-6 rounded-[4px] h-11 flex items-center`}
+                  onClick={() => addToCartHandler(data._id)}
+                >
+                  <span className="text-[#fff] flex items-center">
+                    Add to cart <AiOutlineShoppingCart className="ml-1" />
+                  </span>
                 </div>
               </div>
             </div>
