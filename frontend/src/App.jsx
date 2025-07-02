@@ -12,10 +12,14 @@ import {
   ShopLoginPage,
   ProductDetailsPage,
   ProfilePage,
-  CheckoutPage
+  CheckoutPage,
+  PaymentPage,
+  OrderSuccessPage,
+  OrderDetailsPage,
+  TrackOrderPage,
 } from "./Routes.js";
 import { ToastContainer } from "react-toastify";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ProtectedRoute from "../routes/ProtectedRoute.jsx";
 import Store from "./redux/store.js";
 import { loadSeller, loadUser } from "./redux/actions/user.js";
@@ -30,27 +34,63 @@ import {
   ShopCreateEvents,
   ShopAllEvents,
   ShopAllCoupouns,
-  ShopPreviewPage
+  ShopPreviewPage,
+  ShopAllOrders,
+  ShopOrderDetails,
+  ShopAllRefunds,
+  ShopSettingsPage,
+  ShopWithDrawMoney,
+  ShopInboxPage
 } from "./ShopRoutes.js";
 import SellerProtectedRoute from "../routes/SellerProtectedRoute.jsx";
 import { getAllProducts } from "./redux/actions/product.js";
 import { getAllEvents } from "./redux/actions/event.js";
+import { Elements } from "@stripe/react-stripe-js";
+// import {loadStripe} from "@stripe/react-stripe-js"
+import { loadStripe } from "@stripe/stripe-js";
+import axios from "axios";
+import { server } from "./server.js";
 
 const App = () => {
   const { loading } = useSelector((state) => state.user);
-  const { isSeller, seller } = useSelector((state) => state.seller);
+
+  const [stripeApiKey, setStripeApiKey] = useState("");
+
+  async function getStripeApiKey() {
+    const { data } = await axios.get(`${server}/payment/stripeapikey`);
+    setStripeApiKey(data.stripeApiKey);
+  }
+
+  // const { isSeller, seller } = useSelector((state) => state.seller);
 
   useEffect(() => {
     Store.dispatch(loadUser());
     Store.dispatch(loadSeller());
     Store.dispatch(getAllProducts());
-    Store.dispatch(getAllEvents())
+    Store.dispatch(getAllEvents());
+    getStripeApiKey();
   }, []);
 
   // console.log("this",isSeller, seller);
 
+  // console.log("stripeApiKey", stripeApiKey);
+
   return (
     <BrowserRouter>
+      {stripeApiKey && (
+        <Elements stripe={loadStripe(stripeApiKey)}>
+          <Routes>
+            <Route
+              path="/payment"
+              element={
+                <ProtectedRoute>
+                  <PaymentPage />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+        </Elements>
+      )}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
@@ -64,12 +104,12 @@ const App = () => {
           element={<SellerActivationPage />}
         />
         <Route path="/products" element={<ProductsPage />} />
-          <Route path="/product/:id" element={<ProductDetailsPage />} />
+        <Route path="/product/:id" element={<ProductDetailsPage />} />
         <Route path="/best-selling" element={<BestSellingPage />} />
         <Route path="/events" element={<EventsPage />} />
         <Route path="/faq" element={<FAQPage />} />
 
- <Route
+        <Route
           path="/checkout"
           element={
             <ProtectedRoute>
@@ -78,14 +118,31 @@ const App = () => {
           }
         />
 
+        <Route path="/order/success" element={<OrderSuccessPage />} />
 
         <Route path="/shop/preview/:id" element={<ShopPreviewPage />} />
 
-         <Route
+        <Route
           path="/profile"
           element={
             <ProtectedRoute>
               <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/user/order/:id"
+          element={
+            <ProtectedRoute>
+              <OrderDetailsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/user/track/order/:id"
+          element={
+            <ProtectedRoute>
+              <TrackOrderPage />
             </ProtectedRoute>
           }
         />
@@ -124,11 +181,69 @@ const App = () => {
           }
         />
         <Route
+          path="/dashboard-orders"
+          element={
+            <>
+              <SellerProtectedRoute>
+                <ShopAllOrders />
+              </SellerProtectedRoute>
+            </>
+          }
+        />
+        <Route
+          path="/dashboard-refunds"
+          element={
+            <>
+              <SellerProtectedRoute>
+                <ShopAllRefunds />
+              </SellerProtectedRoute>
+            </>
+          }
+        />
+        <Route
+          path="/dashboard-withdraw-money"
+          element={
+            <>
+              <SellerProtectedRoute>
+                <ShopWithDrawMoney />
+              </SellerProtectedRoute>
+            </>
+          }
+        />
+        <Route
+          path="/dashboard-messages"
+          element={
+            <SellerProtectedRoute>
+              <ShopInboxPage />
+            </SellerProtectedRoute>
+          }
+        />
+        <Route
+          path="/order/:id"
+          element={
+            <>
+              <SellerProtectedRoute>
+                <ShopOrderDetails />
+              </SellerProtectedRoute>
+            </>
+          }
+        />
+        <Route
           path="/dashboard-products"
           element={
             <>
               <SellerProtectedRoute>
                 <ShopAllProducts />
+              </SellerProtectedRoute>
+            </>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <>
+              <SellerProtectedRoute>
+                <ShopSettingsPage />
               </SellerProtectedRoute>
             </>
           }
