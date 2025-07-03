@@ -2,6 +2,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../../styles/styles";
+import { getImageUrl } from "../../utils/imageUtils";
 
 const DropDown = ({ categoriesData, setDropDown }) => {
   const navigate = useNavigate();

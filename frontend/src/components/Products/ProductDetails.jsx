@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { getAllProductShop } from "../../redux/actions/product";
 import { server, backendUrl } from "../../server";
+import { getImageUrl } from "../../utils/imageUtils";
 import styles from "../../styles/styles";
 import {
   addToWishlist,
@@ -132,7 +133,7 @@ const ProductDetails = ({ data }) => {
                 <div className="bg-white rounded-2xl shadow-lg p-6 border border-green-100">
                   <div className="aspect-square rounded-xl overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
                     <img
-                      src={`${backendUrl}${data && data.images[select]}`}
+                      src={getImageUrl(data && data.images[select])}
                       alt={data.name}
                       className="w-full h-full object-contain transition-transform duration-300 hover:scale-105"
                     />
@@ -153,7 +154,7 @@ const ProductDetails = ({ data }) => {
                         onClick={() => setSelect(index)}
                       >
                         <img
-                          src={`${backendUrl}${image}`}
+                          src={getImageUrl(image)}
                           alt={`Product ${index + 1}`}
                           className="w-20 h-20 object-cover bg-gray-100"
                         />
@@ -249,7 +250,7 @@ const ProductDetails = ({ data }) => {
                     <div className="flex items-center space-x-4">
                       <Link to={`/shop/preview/${data?.shop._id}`}>
                         <img
-                          src={`${backendUrl}${data?.shop?.avatar}`}
+                          src={getImageUrl(data?.shop?.avatar)}
                           alt={data.shop.name}
                           className="w-16 h-16 rounded-full object-cover border-3 border-green-200 hover:border-green-400 transition-colors duration-200"
                         />
@@ -385,7 +386,7 @@ const ProductDetailsInfo = ({
                   <div key={index} className="bg-gray-50 rounded-xl p-6 border border-gray-200">
                     <div className="flex items-start space-x-4">
                       <img
-                        src={`${backendUrl}${item.user.avatar}`}
+                        src={getImageUrl(item.user.avatar)}
                         alt={item.user.name}
                         className="w-12 h-12 rounded-full object-cover border-2 border-green-200"
                       />
@@ -425,7 +426,7 @@ const ProductDetailsInfo = ({
                   <div className="bg-green-50 rounded-xl p-6 border border-green-200 hover:border-green-300 transition-colors duration-200">
                     <div className="flex items-center space-x-4 mb-4">
                       <img
-                        src={`${backendUrl}${data?.shop?.avatar}`}
+                        src={getImageUrl(data?.shop?.avatar)}
                         className="w-16 h-16 rounded-full object-cover border-3 border-green-300"
                         alt={data.shop.name}
                       />

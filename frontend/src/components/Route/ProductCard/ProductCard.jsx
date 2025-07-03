@@ -17,6 +17,7 @@ import { addToCart } from "../../../redux/actions/cart";
 import { toast } from "react-toastify";
 import Ratings from "../../Products/Ratings";
 import { backendUrl } from "../../../server";
+import { getImageUrl } from "../../../utils/imageUtils";
 
 const ProductCard = ({ data, isEvent }) => {
   const { wishlist } = useSelector((state) => state.wishlist);
@@ -71,7 +72,7 @@ const ProductCard = ({ data, isEvent }) => {
             className="block w-full h-full"
           >
             <img
-              src={`${backendUrl}${data.images && data.images[0]}`}
+              src={getImageUrl(data.images && data.images[0])}
               alt={data.name}
               className="w-full h-56 object-contain transition-transform duration-300 group-hover:scale-105"
               loading="lazy"

@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { deleteEvent, getAllEventsShop } from "../../redux/actions/event";
 import Loader from "../Layout/Loader";
+import { getImageUrl } from "../../utils/imageUtils";
 
 const AllEvents = () => {
     const { events, isLoading } = useSelector((state) => state.event);

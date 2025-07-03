@@ -1,0 +1,76 @@
+#!/bin/bash
+
+# Script to update all image URL references in the frontend
+
+echo "Updating image URL references in frontend..."
+
+# List of files that need to be updated
+files=(
+    "src/pages/UserInbox.jsx"
+    "src/components/Shop/ShopProfileData.jsx"
+    "src/components/Shop/ShopInfo.jsx"
+    "src/components/Shop/OrderDetails.jsx"
+    "src/components/UserOrderDetails.jsx"
+    "src/components/Wishlist/Wishlist.jsx"
+    "src/components/Route/ProductDetailsCard/ProductDetailsCard.jsx"
+    "src/components/Products/ProductCard.jsx"
+    "src/components/Route/ProductCard/ProductCard.jsx"
+    "src/components/Route/Categories/Categories.jsx"
+    "src/components/Route/Hero/Hero.jsx"
+    "src/components/Route/BestDeals/BestDeals.jsx"
+    "src/components/Route/FeaturedProduct/FeaturedProduct.jsx"
+    "src/components/Route/Events/Events.jsx"
+    "src/components/Events/EventCard.jsx"
+    "src/components/Shop/AllProducts.jsx"
+    "src/components/Shop/CreateProduct.jsx"
+    "src/components/Shop/CreateEvent.jsx"
+    "src/components/Shop/AllEvents.jsx"
+    "src/components/Shop/AllOrders.jsx"
+    "src/components/Shop/AllRefundOrders.jsx"
+    "src/components/Shop/DashboardMessages.jsx"
+    "src/components/Shop/ShopAllProducts.jsx"
+    "src/components/Shop/ShopAllEvents.jsx"
+    "src/components/Shop/ShopAllOrders.jsx"
+    "src/components/Shop/ShopAllRefunds.jsx"
+    "src/components/Shop/ShopInboxPage.jsx"
+    "src/components/Admin/AllUsers.jsx"
+    "src/components/Admin/AllSellers.jsx"
+    "src/components/Admin/AllProducts.jsx"
+    "src/components/Admin/AllEvents.jsx"
+    "src/components/Admin/AllOrders.jsx"
+    "src/components/Layout/Header.jsx"
+    "src/components/Layout/Navbar.jsx"
+    "src/components/Layout/DropDown.jsx"
+    "src/components/Route/Sponsored.jsx"
+    "src/components/Profile/ProfileSideBar.jsx"
+    "src/components/Profile/ProfileContent.jsx"
+    "src/components/Profile/TrackOrder.jsx"
+    "src/components/Profile/Address.jsx"
+    "src/components/Profile/ChangePassword.jsx"
+    "src/components/Profile/AllOrders.jsx"
+    "src/components/Profile/AllRefundOrders.jsx"
+    "src/components/Profile/InboxPage.jsx"
+    "src/components/Checkout/CheckoutSteps.jsx"
+    "src/components/Checkout/Checkout.jsx"
+    "src/components/Payment/Payment.jsx"
+    "src/components/cart/Cart.jsx"
+)
+
+echo "Files that need manual updating:"
+for file in "${files[@]}"; do
+    if [ -f "$file" ]; then
+        echo "  - $file"
+    fi
+done
+
+echo ""
+echo "To update these files, you need to:"
+echo "1. Add import: import { getImageUrl } from '../../utils/imageUtils';"
+echo "2. Replace: \${backendUrl}\${imagePath} with getImageUrl(imagePath)"
+echo "3. Replace: \${backendUrl}\${item.images[0]} with getImageUrl(item.images[0])"
+echo "4. Replace: \${backendUrl}\${data.avatar} with getImageUrl(data.avatar)"
+echo "5. Replace: \${backendUrl}\${user?.avatar} with getImageUrl(user?.avatar)"
+echo ""
+echo "Example of what needs to be changed:"
+echo "Before: src={\`\${backendUrl}\${user?.avatar}\`}"
+echo "After:  src={getImageUrl(user?.avatar)}"

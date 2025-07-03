@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { BiMessageSquareDetail } from "react-icons/bi";
 import { backendUrl } from "../../../server";
+import { getImageUrl } from "../../../utils/imageUtils";
 
 const DashboardHeader = () => {
   const { seller } = useSelector((state) => state.seller);
@@ -78,7 +79,7 @@ const DashboardHeader = () => {
         <div className="ml-4 pl-4 border-l border-gray-200">
           <Link to={`/shop/${seller._id}`} className="flex items-center space-x-3 hover:bg-gray-50 rounded-lg p-2 transition-colors">
             <img
-              src={`${backendUrl}${seller.avatar}`}
+              src={getImageUrl(seller.avatar)}
               alt="Shop Avatar"
               className="w-[45px] h-[45px] rounded-full object-cover border-2 border-green-200"
             />

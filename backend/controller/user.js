@@ -11,6 +11,7 @@ const sendToken = require("../utils/jwtToken.js");
 const catchAsyncError = require("../middleware/catchAsyncErrors.js");
 const { isAuthenticated } = require("../middleware/auth.js");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors.js");
+const { uploadToCloudinary } = require("../utils/cloudinary.js");
 
 router.post("/create-user", upload.single("file"), async (req, res, next) => {
   try {
@@ -18,31 +19,28 @@ router.post("/create-user", upload.single("file"), async (req, res, next) => {
     if (!req.file) {
       return next(new ErrorHandler("Avatar image is required.", 400));
     }
+    
     const userEmail = await User.findOne({ email });
     if (userEmail) {
-      const filename = req.file.filename;
-      const filePath = `uploads/${filename}`;
-      fs.unlink(filePath, (err) => {
-        if (err) {
-          console.log(err);
-          res.status(500).json({ message: "Error deleting file" });
-        }
-      });
       return next(new ErrorHandler("User already exist", 400));
     }
 
-    const filename = req.file.filename;
-    const fileUrl = path.join(filename);
+    // Generate unique filename
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    const filename = `user-${uniqueSuffix}`;
+
+    // Upload to Cloudinary
+    const uploadResult = await uploadToCloudinary(req.file.buffer, filename, 'users');
 
     const user = {
       name: name,
       email: email,
       password: password,
-      avatar: fileUrl,
+      avatar: uploadResult.secure_url, // Use Cloudinary URL
     };
 
     const activationToken = createActivationToken(user);
-    const activationUrl = `http://localhost:5173/activation/${activationToken}`;
+    const activationUrl = `${process.env.NODE_ENV === "PRODUCTION" ? "https://your-frontend-url.vercel.app" : "http://localhost:5173"}/activation/${activationToken}`;
 
     try {
       await sendEmail({

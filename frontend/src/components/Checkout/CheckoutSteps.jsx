@@ -1,5 +1,6 @@
 import React from 'react'
 import styles from '../../styles/styles'
+import { getImageUrl } from "../../utils/imageUtils";
 
 const CheckoutSteps = ({active}) => {
     console.log(active);

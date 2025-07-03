@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { getAllProductShop } from "../../redux/actions/product";
 import { deleteProduct } from "../../redux/actions/product";
 import Loader from "../Layout/Loader";
+import { getImageUrl } from "../../utils/imageUtils";
 
 const AllProducts = () => {
   const { products, isLoading } = useSelector((state) => state.products);

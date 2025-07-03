@@ -16,6 +16,7 @@ import {
   removeFromWishlist,
 } from "../../../redux/actions/wishlist";
 import { backendUrl } from "../../../server";
+import { getImageUrl } from "../../../utils/imageUtils";
 
 const ProductDetailsCard = ({ setOpen, data }) => {
   const { cart } = useSelector((state) => state.cart);
@@ -85,7 +86,7 @@ const ProductDetailsCard = ({ setOpen, data }) => {
         <div className="md:w-1/2 w-full flex flex-col items-center p-6 bg-gradient-to-br from-green-50 to-white">
           <div className="w-full flex justify-center mb-6">
             <img
-              src={`${backendUrl}${data.images && data.images[0]}`}
+              src={getImageUrl(data.images && data.images[0])}
               alt={data.name}
               className="rounded-xl object-contain w-72 h-72 shadow-lg border border-green-100"
             />

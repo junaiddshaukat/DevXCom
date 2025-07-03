@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { createProduct } from "../../redux/actions/product";
 import { categoriesData } from "../../static/data";
 import { toast } from "react-toastify";
+import { getImageUrl } from "../../utils/imageUtils";
 
 const CreateProduct = () => {
   const { seller } = useSelector((state) => state.seller);

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styles from "../../../styles/styles";
 import ProductCard from "../ProductCard/ProductCard";
+import { getImageUrl } from "../../../utils/imageUtils";
 
 const BestDeals = () => {
   const [data, setData] = useState([]);

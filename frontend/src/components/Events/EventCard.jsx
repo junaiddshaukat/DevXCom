@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../redux/actions/cart";
 import { toast } from "react-toastify";
 import { backendUrl } from "../../server.js";
+import { getImageUrl } from "../../utils/imageUtils";
 
 const EventCard = ({ active, data }) => {
   const { cart } = useSelector((state) => state.cart);
@@ -35,7 +36,7 @@ const EventCard = ({ active, data }) => {
       <div className="w-full lg:w-1/2 flex items-center justify-center p-4">
         <div className="bg-white rounded-xl shadow-md p-2 flex items-center justify-center">
           <img
-            src={`${backendUrl}${data.images[0]}`}
+            src={getImageUrl(data.images[0])}
             alt={data.name}
             className="object-cover rounded-lg max-h-64 w-full"
           />

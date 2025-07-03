@@ -17,6 +17,7 @@ import Cart from "../cart/Cart";
 import Wishlist from "../Wishlist/Wishlist";
 import { RxCross1 } from "react-icons/rx";
 import { backendUrl } from "../../server";
+import { getImageUrl } from "../../utils/imageUtils";
 
 const Header = ({ activeHeading }) => {
   const { isAuthenticated, user } = useSelector((state) => state.user);
@@ -86,7 +87,7 @@ const Header = ({ activeHeading }) => {
                       <Link to={`/product/${i._id}`} key={index}>
                         <div className="w-full flex items-center py-3 hover:bg-green-50 rounded-lg px-2 transition-colors">
                           <img
-                            src={`${backendUrl}${i.images[0]}`}
+                            src={getImageUrl(i.images[0])}
                             alt=""
                             className="w-[40px] h-[40px] mr-[10px] rounded-md object-cover"
                           />
@@ -177,7 +178,7 @@ const Header = ({ activeHeading }) => {
                 {isAuthenticated ? (
                   <Link to="/profile">
                     <img
-                      src={`${backendUrl}${user?.avatar}`}
+                      src={getImageUrl(user?.avatar)}
                       className="w-[35px] h-[35px] rounded-full border-2 border-green-400"
                       alt=""
                     />
@@ -288,7 +289,7 @@ const Header = ({ activeHeading }) => {
                         <Link to={`/product/${Product_name}`} key={index}>
                           <div className="flex items-center py-2 hover:bg-green-50 rounded px-2">
                             <img
-                              src={`${backendUrl}${i.images[0]}`}
+                              src={getImageUrl(i.images[0])}
                               alt=""
                               className="w-[50px] h-[50px] mr-2 rounded object-cover"
                             />
@@ -318,7 +319,7 @@ const Header = ({ activeHeading }) => {
                   <div>
                     <Link to="/profile">
                       <img
-                        src={`${backendUrl}${user?.avatar}`}
+                        src={getImageUrl(user?.avatar)}
                         alt=""
                         className="w-[60px] h-[60px] rounded-full border-[3px] border-green-500"
                       />

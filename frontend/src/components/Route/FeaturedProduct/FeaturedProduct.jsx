@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 import styles from "../../../styles/styles";
 import ProductCard from "../ProductCard/ProductCard";
+import { getImageUrl } from "../../../utils/imageUtils";
 
 const shuffleArray = (array) => {
   const arr = [...array];

@@ -12,6 +12,7 @@ const ErrorHandler = require("../utils/ErrorHandler.js");
 const sendShopToken = require("../utils/shopToken.js");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors.js");
 const { isSeller } = require("../middleware/auth.js");
+const { uploadToCloudinary } = require("../utils/cloudinary.js");
 
 // Create Shop Route
 router.post("/create-shop", upload.single("file"), async (req, res, next) => {
@@ -21,31 +22,31 @@ router.post("/create-shop", upload.single("file"), async (req, res, next) => {
     const sellerEmail = await Shop.findOne({ email });
 
     if (sellerEmail) {
-      if (req.file && req.file.filename) {
-        const filename = req.file.filename;
-        const filePath = `uploads/${filename}`;
-        fs.unlink(filePath, (err) => {
-          if (err) {
-            console.log(err);
-            res.status(500).json({ message: "Error deleting file" });
-          }
-        });
-      }
       return next(new ErrorHandler("User already exist", 400));
     }
 
-    if (!req.file || !req.file.filename) {
-      return next(new ErrorHandler("File upload failed", 400));
+    if (!req.file) {
+      return next(new ErrorHandler("Avatar image is required", 400));
     }
 
-    const filename = req.file.filename;
-    const fileUrl = path.join(filename);
+    // Generate unique filename
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    const filename = `shop-${uniqueSuffix}`;
+
+    // Upload to Cloudinary
+    let uploadResult;
+    try {
+      uploadResult = await uploadToCloudinary(req.file.buffer, filename, 'shops');
+    } catch (uploadError) {
+      console.error('Cloudinary upload error:', uploadError);
+      return next(new ErrorHandler("Failed to upload image to cloud storage", 500));
+    }
 
     const seller = {
       name: req.body.name,
       email: email,
       password: req.body.password,
-      avatar: fileUrl,
+      avatar: uploadResult.secure_url, // Use Cloudinary URL
       address: req.body.address,
       phoneNumber: req.body.phoneNumber,
       zipCode: req.body.zipCode

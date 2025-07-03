@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import { navItems } from "../../static/data"
+import { getImageUrl } from "../../utils/imageUtils";
 
 // Import styles
 const styles = {

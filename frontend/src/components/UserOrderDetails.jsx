@@ -10,6 +10,7 @@ import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { backendUrl, server } from "../server";
+import { getImageUrl } from "../utils/imageUtils";
 
 const UserOrderDetails = () => {
   const { orders } = useSelector((state) => state.order);
@@ -93,7 +94,7 @@ const UserOrderDetails = () => {
           return (
             <div className="w-full flex items-start mb-5">
               <img
-                src={`${backendUrl}${item.images[0]}`}
+                src={getImageUrl(item.images[0])}
                 alt=""
                 className="w-[80px] h-[80px]"
               />
@@ -132,7 +133,7 @@ const UserOrderDetails = () => {
             <br />
             <div className="w-full flex">
               <img
-                src={`${selectedItem?.images[0]?.url}`}
+                src={`${selectedItem?.images[0]}`}
                 alt=""
                 className="w-[80px] h-[80px]"
               />

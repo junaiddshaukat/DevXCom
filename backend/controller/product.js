@@ -8,6 +8,8 @@ const { upload } = require("../multer");
 const { isSeller, isAuthenticated } = require("../middleware/auth");
 const fs = require("fs");
 const Order = require("../model/order.js");
+const { uploadToCloudinary } = require("../utils/cloudinary.js");
+
 //create product
 
 router.post(
@@ -22,7 +24,27 @@ router.post(
         return next(new ErrorHandler("Shop not found", 404));
       } else {
         const files = req.files;
-        const imageUrls = files.map((file) => file.filename);
+        
+        if (!files || files.length === 0) {
+          return next(new ErrorHandler("Please upload at least one image", 400));
+        }
+
+        // Upload all images to Cloudinary
+        const imageUrls = [];
+        for (let i = 0; i < files.length; i++) {
+          const file = files[i];
+          const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+          const filename = `product-${uniqueSuffix}-${i}`;
+          
+          try {
+            const uploadResult = await uploadToCloudinary(file.buffer, filename, 'products');
+            imageUrls.push(uploadResult.secure_url);
+          } catch (uploadError) {
+            console.error('Cloudinary upload error:', uploadError);
+            return next(new ErrorHandler("Failed to upload image to cloud storage", 500));
+          }
+        }
+
         const productData = req.body;
         productData.images = imageUrls;
         productData.shop = shop;

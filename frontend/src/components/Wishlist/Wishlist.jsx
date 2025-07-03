@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { removeFromWishlist } from "../../redux/actions/wishlist";
 import { addToCart } from "../../redux/actions/cart";
 import { backendUrl } from "../../server";
+import { getImageUrl } from "../../utils/imageUtils";
 
 const Wishlist = ({ setOpenWishlist }) => {
   const { wishlist } = useSelector((state) => state.wishlist);
@@ -81,7 +82,7 @@ const CartSingle = ({ data,removeFromWishlistHandler,addToCartHandler }) => {
         onClick={() => removeFromWishlistHandler(data)}
         />
         <img
-          src={`${backendUrl}${data?.images[0]}`}
+          src={getImageUrl(data?.images[0])}
           alt=""
           className="w-[130px] h-min ml-2 mr-2 rounded-[5px]"
         />

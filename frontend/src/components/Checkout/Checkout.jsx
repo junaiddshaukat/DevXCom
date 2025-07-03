@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import { server } from "../../server";
 import { toast } from "react-toastify";
+import { getImageUrl } from "../../utils/imageUtils";
 
 const Checkout = () => {
   const { user } = useSelector((state) => state.user);

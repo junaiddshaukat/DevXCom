@@ -6,6 +6,7 @@ import {
 } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { backendUrl, server } from "../../server";
+import { getImageUrl } from "../../utils/imageUtils";
 import styles from "../../styles/styles";
 import { DataGrid } from "@mui/x-data-grid";
 import { Button } from "@mui/material";
@@ -84,7 +85,7 @@ const ProfileContent = ({ active }) => {
           <div className="flex justify-center w-full">
             <div className="relative">
               <img
-                src={`${backendUrl}${user?.avatar}`}
+                src={getImageUrl(user?.avatar)}
                 className="w-[150px] h-[150px] rounded-full object-cover border-[3px] border-[#3ad132]"
                 alt=""
               />
