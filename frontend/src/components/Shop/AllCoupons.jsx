@@ -1,4 +1,4 @@
-import { Button } from "@material-ui/core";
+import { Button } from "@mui/material";
 import { DataGrid } from '@mui/x-data-grid';
 import axios from "axios";
 import React, { useEffect, useState } from "react";

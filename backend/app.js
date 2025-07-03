@@ -11,7 +11,7 @@ app.use("/",express.static("uploads"));
 app.use(express.urlencoded({extended: true}));
 app.use(cors({
     origin: process.env.NODE_ENV === "PRODUCTION" 
-        ? ["https://your-app-name.vercel.app", "https://your-custom-domain.com"] 
+        ? ["https://devxcom.vercel.app", "https://your-custom-domain.com"] 
         : "http://localhost:5173",
     credentials: true, // Allow cookies to be sent with requests
 }));

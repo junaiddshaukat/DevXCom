@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { backendUrl, server } from "../../server";
 import styles from "../../styles/styles";
 import { DataGrid } from "@mui/x-data-grid";
-import { Button } from "@material-ui/core";
+import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import { MdTrackChanges } from "react-icons/md";
 import { RxCross1 } from "react-icons/rx";

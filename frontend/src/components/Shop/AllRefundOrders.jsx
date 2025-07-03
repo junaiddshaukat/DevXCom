@@ -1,4 +1,4 @@
-import { Button } from "@material-ui/core";
+import { Button } from "@mui/material";
 import { DataGrid } from '@mui/x-data-grid';
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
