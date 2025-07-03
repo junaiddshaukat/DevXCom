@@ -46,5 +46,12 @@ app.use('/api/v2/message', message);
 // Error Handling
 app.use(ErrorHandler);
 
+app.get("/test",(req, res) => {
+    res.status(200).json({
+        success: true,
+        message: "Server is working fine"
+    });
+});
+
 
 module.exports = app;
