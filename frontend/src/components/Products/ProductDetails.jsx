@@ -4,11 +4,13 @@ import {
   AiOutlineHeart,
   AiOutlineMessage,
   AiOutlineShoppingCart,
+  AiOutlineMinus,
+  AiOutlinePlus,
 } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { getAllProductShop } from "../../redux/actions/product";
-import { server } from "../../server";
+import { server, backendUrl } from "../../server";
 import styles from "../../styles/styles";
 import {
   addToWishlist,
@@ -120,136 +122,177 @@ const ProductDetails = ({ data }) => {
   };
 
   return (
-    <div className="bg-white">
+    <div className="bg-gradient-to-br from-green-50 to-white min-h-screen">
       {data ? (
-        <div className={`${styles.section} w-[90%] 800px:w-[80%]`}>
-          <div className="w-full py-5">
-            <div className="block w-full 800px:flex">
-              <div className="w-full 800px:w-[50%]">
-                <img
-                  src={`${data && data.images[select]?.url}`}
-                  alt=""
-                  className="w-[80%]"
-                />
-                <div className="w-full flex">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="py-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+              {/* Image Section */}
+              <div className="space-y-6">
+                <div className="bg-white rounded-2xl shadow-lg p-6 border border-green-100">
+                  <div className="aspect-square rounded-xl overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
+                    <img
+                      src={`${backendUrl}${data && data.images[select]}`}
+                      alt={data.name}
+                      className="w-full h-full object-contain transition-transform duration-300 hover:scale-105"
+                    />
+                  </div>
+                </div>
+                
+                {/* Thumbnail Images */}
+                <div className="flex gap-3 overflow-x-auto pb-2">
                   {data &&
-                    data.images.map((i, index) => (
+                    data.images.map((image, index) => (
                       <div
-                        className={`${
-                          select === 0 ? "border" : "null"
-                        } cursor-pointer`}
+                        key={index}
+                        className={`relative flex-shrink-0 cursor-pointer rounded-lg overflow-hidden transition-all duration-200 ${
+                          select === index 
+                            ? "ring-3 ring-green-500 shadow-lg scale-105" 
+                            : "hover:ring-2 hover:ring-green-300 hover:scale-102"
+                        }`}
+                        onClick={() => setSelect(index)}
                       >
                         <img
-                          src={`${i?.url}`}
-                          alt=""
-                          className="h-[200px] overflow-hidden mr-3 mt-3"
-                          onClick={() => setSelect(index)}
+                          src={`${backendUrl}${image}`}
+                          alt={`Product ${index + 1}`}
+                          className="w-20 h-20 object-cover bg-gray-100"
                         />
+                        {select === index && (
+                          <div className="absolute inset-0 bg-green-500/10 border-2 border-green-500 rounded-lg"></div>
+                        )}
                       </div>
                     ))}
-                  <div
-                    className={`${
-                      select === 1 ? "border" : "null"
-                    } cursor-pointer`}
-                  ></div>
                 </div>
               </div>
-              <div className="w-full 800px:w-[50%] pt-5">
-                <h1 className={`${styles.productTitle}`}>{data.name}</h1>
-                <p>{data.description}</p>
-                <div className="flex pt-3">
-                  <h4 className={`${styles.productDiscountPrice}`}>
-                    {data.discountPrice}$
-                  </h4>
-                  <h3 className={`${styles.price}`}>
-                    {data.originalPrice ? data.originalPrice + "$" : null}
-                  </h3>
-                </div>
+              {/* Product Info Section */}
+              <div className="space-y-8">
+                <div className="bg-white rounded-2xl shadow-lg p-8 border border-green-100">
+                  {/* Product Header */}
+                  <div className="space-y-4">
+                    <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">
+                      {data.name}
+                    </h1>
+                    <p className="text-gray-600 text-lg leading-relaxed">
+                      {data.description}
+                    </p>
+                    
+                    {/* Price Section */}
+                    <div className="flex items-end gap-4 py-4">
+                      <span className="text-4xl font-bold text-green-600">
+                        ${data.discountPrice}
+                      </span>
+                      {data.originalPrice && data.originalPrice !== data.discountPrice && (
+                        <span className="text-xl text-gray-400 line-through">
+                          ${data.originalPrice}
+                        </span>
+                      )}
+                      {data.originalPrice && data.originalPrice !== data.discountPrice && (
+                        <span className="bg-green-100 text-green-800 text-sm font-medium px-3 py-1 rounded-full">
+                          Save ${(data.originalPrice - data.discountPrice).toFixed(2)}
+                        </span>
+                      )}
+                    </div>
+                  </div>
 
-                <div className="flex items-center mt-12 justify-between pr-3">
-                  <div>
+                  {/* Quantity and Wishlist */}
+                  <div className="flex items-center justify-between py-6 border-t border-gray-100">
+                    <div className="flex items-center space-x-4">
+                      <span className="text-gray-700 font-medium">Quantity:</span>
+                      <div className="flex items-center bg-gray-100 rounded-xl overflow-hidden">
+                        <button
+                          className="p-3 hover:bg-green-100 transition-colors duration-200 flex items-center justify-center"
+                          onClick={decrementCount}
+                        >
+                          <AiOutlineMinus size={18} className="text-gray-600" />
+                        </button>
+                        <span className="px-6 py-3 bg-white font-semibold text-gray-800 min-w-[60px] text-center">
+                          {count}
+                        </span>
+                        <button
+                          className="p-3 hover:bg-green-100 transition-colors duration-200 flex items-center justify-center"
+                          onClick={incrementCount}
+                        >
+                          <AiOutlinePlus size={18} className="text-gray-600" />
+                        </button>
+                      </div>
+                    </div>
+                    
                     <button
-                      className="bg-gradient-to-r from-teal-400 to-teal-500 text-white font-bold rounded-l px-4 py-2 shadow-lg hover:opacity-75 transition duration-300 ease-in-out"
-                      onClick={decrementCount}
+                      className={`p-3 rounded-full transition-all duration-200 ${
+                        click 
+                          ? "bg-red-100 text-red-500 hover:bg-red-200" 
+                          : "bg-gray-100 text-gray-600 hover:bg-pink-100 hover:text-pink-500"
+                      }`}
+                      onClick={() => click ? removeFromWishlistHandler(data) : addToWishlistHandler(data)}
+                      title={click ? "Remove from wishlist" : "Add to wishlist"}
                     >
-                      -
-                    </button>
-                    <span className="bg-gray-200 text-gray-800 font-medium px-4 py-[11px]">
-                      {count}
-                    </span>
-                    <button
-                      className="bg-gradient-to-r from-teal-400 to-teal-500 text-white font-bold rounded-l px-4 py-2 shadow-lg hover:opacity-75 transition duration-300 ease-in-out"
-                      onClick={incrementCount}
-                    >
-                      +
+                      {click ? (
+                        <AiFillHeart size={24} />
+                      ) : (
+                        <AiOutlineHeart size={24} />
+                      )}
                     </button>
                   </div>
-                  <div>
-                    {click ? (
-                      <AiFillHeart
-                        size={30}
-                        className="cursor-pointer"
-                        onClick={() => removeFromWishlistHandler(data)}
-                        color={click ? "red" : "#333"}
-                        title="Remove from wishlist"
-                      />
-                    ) : (
-                      <AiOutlineHeart
-                        size={30}
-                        className="cursor-pointer"
-                        onClick={() => addToWishlistHandler(data)}
-                        color={click ? "red" : "#333"}
-                        title="Add to wishlist"
-                      />
-                    )}
-                  </div>
-                </div>
-                <div
-                  className={`${styles.button} !mt-6 !rounded !h-11 flex items-center`}
-                  onClick={() => addToCartHandler(data._id)}
-                >
-                  <span className="text-white flex items-center">
-                    Add to cart <AiOutlineShoppingCart className="ml-1" />
-                  </span>
-                </div>
-                <div className="flex items-center pt-8">
-                  <Link to={`/shop/preview/${data?.shop._id}`}>
-                    <img
-                      src={`${data?.shop?.avatar?.url}`}
-                      alt=""
-                      className="w-[50px] h-[50px] rounded-full mr-2"
-                    />
-                  </Link>
-                  <div className="pr-8">
-                    <Link to={`/shop/preview/${data?.shop._id}`}>
-                      <h3 className={`${styles.shop_name} pb-1 pt-1`}>
-                        {data.shop.name}
-                      </h3>
-                    </Link>
-                    <h5 className="pb-3 text-[15px]">
-                      ({averageRating}/5) Ratings
-                    </h5>
-                  </div>
-                  <div
-                    className={`${styles.button} bg-[#6443d1] mt-4 !rounded !h-11`}
-                    onClick={handleMessageSubmit}
+
+                  {/* Add to Cart Button */}
+                  <button
+                    className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center space-x-3"
+                    onClick={() => addToCartHandler(data._id)}
                   >
-                    <span className="text-white flex items-center">
-                      Send Message <AiOutlineMessage className="ml-1" />
-                    </span>
+                    <AiOutlineShoppingCart size={24} />
+                    <span className="text-lg">Add to Cart</span>
+                  </button>
+                </div>
+                {/* Shop Info Section */}
+                <div className="bg-white rounded-2xl shadow-lg p-6 border border-green-100">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <Link to={`/shop/preview/${data?.shop._id}`}>
+                        <img
+                          src={`${backendUrl}${data?.shop?.avatar}`}
+                          alt={data.shop.name}
+                          className="w-16 h-16 rounded-full object-cover border-3 border-green-200 hover:border-green-400 transition-colors duration-200"
+                        />
+                      </Link>
+                      <div>
+                        <Link to={`/shop/preview/${data?.shop._id}`}>
+                          <h3 className="text-xl font-semibold text-gray-900 hover:text-green-600 transition-colors duration-200">
+                            {data.shop.name}
+                          </h3>
+                        </Link>
+                        <div className="flex items-center space-x-2">
+                          <div className="flex items-center">
+                            <Ratings rating={averageRating} />
+                          </div>
+                          <span className="text-gray-500 text-sm">
+                            ({averageRating}/5) Ratings
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <button
+                      className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 flex items-center space-x-2"
+                      onClick={handleMessageSubmit}
+                    >
+                      <AiOutlineMessage size={20} />
+                      <span>Message Shop</span>
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
+            
+            {/* Product Details Info */}
+            <div className="mt-12">
+              <ProductDetailsInfo
+                data={data}
+                products={products}
+                totalReviewsLength={totalReviewsLength}
+                averageRating={averageRating}
+              />
+            </div>
           </div>
-          <ProductDetailsInfo
-            data={data}
-            products={products}
-            totalReviewsLength={totalReviewsLength}
-            averageRating={averageRating}
-          />
-          <br />
-          <br />
         </div>
       ) : null}
     </div>
@@ -265,133 +308,176 @@ const ProductDetailsInfo = ({
   const [active, setActive] = useState(1);
 
   return (
-    <div className="bg-[#f5f6fb] px-3 800px:px-10 py-2 rounded">
-      <div className="w-full flex justify-between border-b pt-10 pb-2">
-        <div className="relative">
-          <h5
-            className={
-              "text-[#000] text-[18px] px-1 leading-5 font-[600] cursor-pointer 800px:text-[20px]"
-            }
-            onClick={() => setActive(1)}
-          >
-            Product Details
-          </h5>
-          {active === 1 ? (
-            <div className={`${styles.active_indicator}`} />
-          ) : null}
-        </div>
-        <div className="relative">
-          <h5
-            className={
-              "text-[#000] text-[18px] px-1 leading-5 font-[600] cursor-pointer 800px:text-[20px]"
-            }
-            onClick={() => setActive(2)}
-          >
-            Product Reviews
-          </h5>
-          {active === 2 ? (
-            <div className={`${styles.active_indicator}`} />
-          ) : null}
-        </div>
-        <div className="relative">
-          <h5
-            className={
-              "text-[#000] text-[18px] px-1 leading-5 font-[600] cursor-pointer 800px:text-[20px]"
-            }
-            onClick={() => setActive(3)}
-          >
-            Seller Information
-          </h5>
-          {active === 3 ? (
-            <div className={`${styles.active_indicator}`} />
-          ) : null}
-        </div>
+    <div className="bg-white rounded-2xl shadow-lg border border-green-100 overflow-hidden">
+      {/* Tab Navigation */}
+      <div className="flex border-b border-gray-200">
+        <button
+          className={`flex-1 px-6 py-4 text-center font-semibold transition-all duration-200 ${
+            active === 1
+              ? "bg-gradient-to-r from-green-500 to-green-600 text-white"
+              : "text-gray-600 hover:text-green-600 hover:bg-green-50"
+          }`}
+          onClick={() => setActive(1)}
+        >
+          Product Details
+        </button>
+        <button
+          className={`flex-1 px-6 py-4 text-center font-semibold transition-all duration-200 ${
+            active === 2
+              ? "bg-gradient-to-r from-green-500 to-green-600 text-white"
+              : "text-gray-600 hover:text-green-600 hover:bg-green-50"
+          }`}
+          onClick={() => setActive(2)}
+        >
+          Reviews ({data.reviews.length})
+        </button>
+        <button
+          className={`flex-1 px-6 py-4 text-center font-semibold transition-all duration-200 ${
+            active === 3
+              ? "bg-gradient-to-r from-green-500 to-green-600 text-white"
+              : "text-gray-600 hover:text-green-600 hover:bg-green-50"
+          }`}
+          onClick={() => setActive(3)}
+        >
+          Shop Information
+        </button>
       </div>
-      {active === 1 ? (
-        <>
-          <p className="py-2 text-[18px] leading-8 pb-10 whitespace-pre-line">
-            {data.description}
-          </p>
-        </>
-      ) : null}
-
-      {active === 2 ? (
-        <div className="w-full min-h-[40vh] flex flex-col items-center py-3 overflow-y-scroll">
-          {data &&
-            data.reviews.map((item, index) => (
-              <div className="w-full flex my-2">
-                <img
-                  src={`${item.user.avatar?.url}`}
-                  alt=""
-                  className="w-[50px] h-[50px] rounded-full"
-                />
-                <div className="pl-2 ">
-                  <div className="w-full flex items-center">
-                    <h1 className="font-[500] mr-3">{item.user.name}</h1>
-                    <Ratings rating={data?.ratings} />
-                  </div>
-                  <p>{item.comment}</p>
-                </div>
+      {/* Tab Content */}
+      <div className="p-8">
+        {active === 1 && (
+          <div className="space-y-6">
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">Product Description</h3>
+            <div className="prose prose-green max-w-none">
+              <p className="text-gray-700 text-lg leading-relaxed whitespace-pre-line">
+                {data.description}
+              </p>
+            </div>
+            
+            {/* Additional Product Info */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+              <div className="bg-green-50 rounded-xl p-6 border border-green-200">
+                <h4 className="font-semibold text-green-800 mb-2">Product Details</h4>
+                <ul className="space-y-2 text-green-700">
+                  <li>Category: {data.category}</li>
+                  <li>Stock: {data.stock} items available</li>
+                  {data.tags && <li>Tags: {data.tags}</li>}
+                </ul>
               </div>
-            ))}
-
-          <div className="w-full flex justify-center">
-            {data && data.reviews.length === 0 && (
-              <h5>No Reviews have for this product!</h5>
-            )}
-          </div>
-        </div>
-      ) : null}
-
-      {active === 3 && (
-        <div className="w-full block 800px:flex p-5">
-          <div className="w-full 800px:w-[50%]">
-            <Link to={`/shop/preview/${data.shop._id}`}>
-              <div className="flex items-center">
-                <img
-                  src={`${data?.shop?.avatar?.url}`}
-                  className="w-[50px] h-[50px] rounded-full"
-                  alt=""
-                />
-                <div className="pl-3">
-                  <h3 className={`${styles.shop_name}`}>{data.shop.name}</h3>
-                  <h5 className="pb-2 text-[15px]">
-                    ({averageRating}/5) Ratings
-                  </h5>
-                </div>
+              <div className="bg-blue-50 rounded-xl p-6 border border-blue-200">
+                <h4 className="font-semibold text-blue-800 mb-2">Sales Info</h4>
+                <ul className="space-y-2 text-blue-700">
+                  <li>Total Sold: {data.sold_out} items</li>
+                  <li>Average Rating: {data.ratings?.toFixed(1) || "No ratings"}</li>
+                  <li>Reviews: {data.reviews.length} reviews</li>
+                </ul>
               </div>
-            </Link>
-            <p className="pt-2">{data.shop.description}</p>
-          </div>
-          <div className="w-full 800px:w-[50%] mt-5 800px:mt-0 800px:flex flex-col items-end">
-            <div className="text-left">
-              <h5 className="font-[600]">
-                Joined on:{" "}
-                <span className="font-[500]">
-                  {data.shop?.createdAt?.slice(0, 10)}
-                </span>
-              </h5>
-              <h5 className="font-[600] pt-3">
-                Total Products:{" "}
-                <span className="font-[500]">
-                  {products && products.length}
-                </span>
-              </h5>
-              <h5 className="font-[600] pt-3">
-                Total Reviews:{" "}
-                <span className="font-[500]">{totalReviewsLength}</span>
-              </h5>
-            <Link to={`/shop/preview/${data?.shop._id}`}>
-                <div
-                  className={`${styles.button} !rounded-[4px] !h-[39.5px] mt-3`}
-                >
-                  <h4 className="text-white">Visit Shop</h4>
-                </div>
-              </Link>
             </div>
           </div>
-        </div>
-      )}
+        )}
+
+        {active === 2 && (
+          <div className="space-y-6">
+            <h3 className="text-2xl font-bold text-gray-900 mb-6">Customer Reviews</h3>
+            
+            {data.reviews.length > 0 ? (
+              <div className="space-y-6 max-h-96 overflow-y-auto">
+                {data.reviews.map((item, index) => (
+                  <div key={index} className="bg-gray-50 rounded-xl p-6 border border-gray-200">
+                    <div className="flex items-start space-x-4">
+                      <img
+                        src={`${backendUrl}${item.user.avatar}`}
+                        alt={item.user.name}
+                        className="w-12 h-12 rounded-full object-cover border-2 border-green-200"
+                      />
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between mb-3">
+                          <h4 className="font-semibold text-gray-900">{item.user.name}</h4>
+                          <Ratings rating={item.rating} />
+                        </div>
+                        <p className="text-gray-700 leading-relaxed">{item.comment}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <div className="bg-gray-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 8h10m0 0V6a2 2 0 00-2-2H9a2 2 0 00-2 2v2m0 0v10a2 2 0 002 2h6a2 2 0 002-2V8M9 12h6" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-medium text-gray-900 mb-2">No Reviews Yet</h3>
+                <p className="text-gray-500">Be the first to review this product!</p>
+              </div>
+            )}
+          </div>
+        )}
+
+        {active === 3 && (
+          <div className="space-y-6">
+            <h3 className="text-2xl font-bold text-gray-900 mb-6">Shop Information</h3>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Shop Profile */}
+              <div className="space-y-6">
+                <Link to={`/shop/preview/${data.shop._id}`}>
+                  <div className="bg-green-50 rounded-xl p-6 border border-green-200 hover:border-green-300 transition-colors duration-200">
+                    <div className="flex items-center space-x-4 mb-4">
+                      <img
+                        src={`${backendUrl}${data?.shop?.avatar}`}
+                        className="w-16 h-16 rounded-full object-cover border-3 border-green-300"
+                        alt={data.shop.name}
+                      />
+                      <div>
+                        <h3 className="text-xl font-bold text-green-800">{data.shop.name}</h3>
+                        <div className="flex items-center space-x-2">
+                          <Ratings rating={averageRating} />
+                          <span className="text-green-600 text-sm">
+                            ({averageRating}/5) Rating
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <p className="text-green-700 leading-relaxed">{data.shop.description}</p>
+                  </div>
+                </Link>
+              </div>
+
+              {/* Shop Statistics */}
+              <div className="space-y-4">
+                <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
+                  <h4 className="font-semibold text-gray-800 mb-4">Shop Statistics</h4>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-600">Joined:</span>
+                      <span className="font-medium text-gray-900">
+                        {data.shop?.createdAt?.slice(0, 10)}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-600">Total Products:</span>
+                      <span className="font-medium text-gray-900">
+                        {products && products.length}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-600">Total Reviews:</span>
+                      <span className="font-medium text-gray-900">{totalReviewsLength}</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <Link to={`/shop/preview/${data?.shop._id}`}>
+                  <button className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200">
+                    Visit Shop
+                  </button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

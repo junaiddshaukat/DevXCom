@@ -1,0 +1,21 @@
+{
+  "name": "devxcom-fullstack",
+  "version": "1.0.0",
+  "description": "Full stack e-commerce application",
+  "main": "api/index.js",
+  "scripts": {
+    "build": "cd frontend && npm run build",
+    "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm run dev\"",
+    "start": "cd backend && npm start",
+    "install-frontend": "cd frontend && npm install",
+    "install-backend": "cd backend && npm install",
+    "install-all": "npm run install-backend && npm run install-frontend",
+    "vercel-build": "cd frontend && npm install && npm run build"
+  },
+  "keywords": ["ecommerce", "fullstack", "react", "node"],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

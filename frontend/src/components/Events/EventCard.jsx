@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../redux/actions/cart";
 import { toast } from "react-toastify";
+import { backendUrl } from "../../server.js";
 
 const EventCard = ({ active, data }) => {
   const { cart } = useSelector((state) => state.cart);
@@ -23,39 +24,58 @@ const EventCard = ({ active, data }) => {
         toast.success("Item added to cart successfully!");
       }
     }
-  }
+  };
+
   return (
     <div
-      className={`w-full block bg-white rounded-lg ${
-        active ? "unset" : "mb-12"
-      } lg:flex p-2`}
+      className={`w-full block bg-gradient-to-br from-green-100 to-green-50 rounded-2xl shadow-lg ${
+        active ? "" : "mb-12"
+      } lg:flex p-4 transition-transform duration-200 hover:scale-[1.02]`}
     >
-      <div className="w-full lg:-w[50%] m-auto">
-        <img src={`${data.images[0]?.url}`} alt="" />
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-4">
+        <div className="bg-white rounded-xl shadow-md p-2 flex items-center justify-center">
+          <img
+            src={`${backendUrl}${data.images[0]}`}
+            alt={data.name}
+            className="object-cover rounded-lg max-h-64 w-full"
+          />
+        </div>
       </div>
-      <div className="w-full lg:[w-50%] flex flex-col justify-center">
-        <h2 className={`${styles.productTitle}`}>{data.name}</h2>
-        <p>{data.description}</p>
-        <div className="flex py-2 justify-between">
-          <div className="flex">
-            <h5 className="font-[500] text-[18px] text-[#d55b45] pr-3 line-through">
+      <div className="w-full lg:w-1/2 flex flex-col justify-center px-4 py-2">
+        <h2 className="text-2xl font-bold text-green-800 mb-2 leading-tight">{data.name}</h2>
+        <p className="text-gray-700 mb-4 line-clamp-3">{data.description}</p>
+        <div className="flex py-2 justify-between items-center">
+          <div className="flex items-end">
+            <h5 className="font-semibold text-lg text-gray-400 pr-3 line-through">
               {data.originalPrice}$
             </h5>
-            <h5 className="font-bold text-[20px] text-[#333] font-Roboto">
+            <h5 className="font-bold text-2xl text-green-700 font-Roboto">
               {data.discountPrice}$
             </h5>
           </div>
-          <span className="pr-3 font-[400] text-[17px] text-[#44a55e]">
+          <span className="pl-3 font-medium text-base text-green-600 bg-green-100 rounded-full px-3 py-1">
             {data.sold_out} sold
           </span>
         </div>
-        <CountDown data={data} />
-        <br />
-        <div className="flex items-center">
+        <div className="my-4">
+          <CountDown data={data} />
+        </div>
+        <div className="flex items-center gap-4 mt-2">
           <Link to={`/product/${data._id}?isEvent=true`}>
-            <div className={`${styles.button} text-[#fff]`}>See Details</div>
+            <button
+              className="bg-green-600 hover:bg-green-700 transition-colors duration-150 text-white font-semibold py-2 px-6 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-green-400"
+              type="button"
+            >
+              See Details
+            </button>
           </Link>
-          <div className={`${styles.button} text-[#fff] ml-5`} onClick={() => addToCartHandler(data)}>Add to cart</div>
+          <button
+            className="bg-gradient-to-r from-green-500 to-green-700 hover:from-green-600 hover:to-green-800 transition-colors duration-150 text-white font-semibold py-2 px-6 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-green-400"
+            type="button"
+            onClick={() => addToCartHandler(data)}
+          >
+            Add to cart
+          </button>
         </div>
       </div>
     </div>

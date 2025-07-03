@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "../../redux/actions/cart";
 import { toast } from "react-toastify";
+import { backendUrl } from "../../server";
 
 const Cart = ({ setOpenCart }) => {
   const { cart } = useSelector((state) => state.cart);
@@ -26,7 +27,7 @@ const Cart = ({ setOpenCart }) => {
   };
 
   return (
-    <div className="fixed top-0 left-0 w-full bg-[#0000004b] h-screen z-10">
+    <div className="fixed top-0 z-50 left-0 w-full bg-[#0000004b] h-screen ">
       <div className="fixed top-0 right-0 h-full w-[80%] 800px:w-[25%] bg-white flex flex-col overflow-y-scroll justify-between shadow-sm">
         {cart && cart.length === 0 ? (
           <div className="w-full h-screen flex items-center justify-center">
@@ -111,8 +112,9 @@ const CartSingle = ({ data, quantityChangeHandler, removeFromCartHandler }) => {
     quantityChangeHandler(updateCartData);
   };
 
+  // console.log("data", data);
   return (
-    <div className="border-b p-4">
+    <div className="border-b z-50 p-4">
       <div className="w-full flex items-center">
         <div>
           <div
@@ -130,7 +132,7 @@ const CartSingle = ({ data, quantityChangeHandler, removeFromCartHandler }) => {
           </div>
         </div>
         <img
-          src={`${data?.images[0]?.url}`}
+          src={`${backendUrl}${data?.images[0]}`}
           alt=""
           className="w-[130px] h-min ml-2 mr-2 rounded-[5px]"
         />

@@ -6,6 +6,7 @@ import { AiOutlineHeart } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { removeFromWishlist } from "../../redux/actions/wishlist";
 import { addToCart } from "../../redux/actions/cart";
+import { backendUrl } from "../../server";
 
 const Wishlist = ({ setOpenWishlist }) => {
   const { wishlist } = useSelector((state) => state.wishlist);
@@ -22,7 +23,7 @@ const Wishlist = ({ setOpenWishlist }) => {
   }
 
   return (
-    <div className="fixed top-0 left-0 w-full bg-[#0000004b] h-screen z-10">
+    <div className="fixed   top-0 left-0 w-full bg-[#0000004b] h-screen z-50">
       <div className="fixed top-0 right-0 h-full w-[80%] overflow-y-scroll 800px:w-[25%] bg-white flex flex-col justify-between shadow-sm">
         {wishlist && wishlist.length === 0 ? (
           <div className="w-full h-screen flex items-center justify-center">
@@ -74,13 +75,13 @@ const CartSingle = ({ data,removeFromWishlistHandler,addToCartHandler }) => {
   const totalPrice = data.discountPrice * value;
 
   return (
-    <div className="border-b p-4">
+    <div className="border-b z-1000 p-4">
       <div className="w-full 800px:flex items-center">
         <RxCross1 className="cursor-pointer 800px:mb-['unset'] 800px:ml-['unset'] mb-2 ml-2"
         onClick={() => removeFromWishlistHandler(data)}
         />
         <img
-          src={`${data?.images[0]?.url}`}
+          src={`${backendUrl}${data?.images[0]}`}
           alt=""
           className="w-[130px] h-min ml-2 mr-2 rounded-[5px]"
         />

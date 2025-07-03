@@ -9,7 +9,7 @@ import { RxCross1 } from "react-icons/rx";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { server } from "../server";
+import { backendUrl, server } from "../server";
 
 const UserOrderDetails = () => {
   const { orders } = useSelector((state) => state.order);
@@ -71,7 +71,7 @@ const UserOrderDetails = () => {
     <div className={`py-4 min-h-screen ${styles.section}`}>
       <div className="w-full flex items-center justify-between">
         <div className="flex items-center">
-          <BsFillBagFill size={30} color="crimson" />
+          <BsFillBagFill size={30} color="green" />
           <h1 className="pl-2 text-[25px]">Order Details</h1>
         </div>
       </div>
@@ -93,9 +93,9 @@ const UserOrderDetails = () => {
           return (
             <div className="w-full flex items-start mb-5">
               <img
-                src={`${item.images[0]?.url}`}
+                src={`${backendUrl}${item.images[0]}`}
                 alt=""
-                className="w-[80x] h-[80px]"
+                className="w-[80px] h-[80px]"
               />
               <div className="w-full">
                 <h5 className="pl-3 text-[20px]">{item.name}</h5>

@@ -4,7 +4,8 @@ module.exports = {
   mode: "jit",
   theme: {
     fontFamily: {
-      Outfit: ["Outfit", "sans-serif"],
+      Inter: ["Inter", "sans-serif"],
+      sans: ["Inter", "sans-serif"], // This makes Inter the default font
     },
     extend: {
       screens: {

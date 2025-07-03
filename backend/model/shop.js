@@ -33,14 +33,7 @@ const shopSchema = new mongoose.Schema({
     default: "Seller",
   },
   avatar: {
-    public_id: {
-      type: String,
-      // required: true,
-    },
-    url: {
-      type: String,
-      // required: true,
-    },
+    type: String,
   },
   zipCode: {
     type: Number,
@@ -90,7 +83,7 @@ shopSchema.pre("save", async function (next) {
 
 // jwt token
 shopSchema.methods.getJwtToken = function () {
-  return jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY, {
+  return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES,
   });
 };

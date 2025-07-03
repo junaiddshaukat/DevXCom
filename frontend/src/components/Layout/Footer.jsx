@@ -14,109 +14,118 @@ import {
 
 const Footer = () => {
   return (
-    <div className="bg-[#000] text-white">
-      <div className="md:flex md:justify-between md:items-center sm:px-12 px-4 bg-[#342ac8] py-7">
+    <div className="bg-gradient-to-b from-gray-900 to-black text-white">
+      <div className="md:flex md:justify-between md:items-center sm:px-12 px-4 bg-gradient-to-r from-green-600 to-green-700 py-8">
         <h1 className="lg:text-4xl text-3xl md:mb-0 mb-6 lg:leading-normal font-semibold md:w-2/5">
-          <span className="text-[#56d879]">Subscribe</span> us for get news{" "}
+          <span className="text-white">Subscribe</span> for latest news{" "}
           <br />
-          events and offers
+          events and exclusive offers
         </h1>
-        <div>
+        <div className="flex flex-col sm:flex-row gap-3">
           <input
             type="text"
             required
             placeholder="Enter your email..."
-            className="text-gray-800
-                sm:w-72 w-full sm:mr-5 mr-1 lg:mb-0 mb-4 py-2.5 rounded px-2 focus:outline-none"
+            className="text-gray-800 sm:w-72 w-full py-3 px-4 rounded-lg border-0 focus:outline-none focus:ring-2 focus:ring-green-400 shadow-lg"
           />
-          <button className="bg-[#56d879] hover:bg-teal-500 duration-300 px-5 py-2.5 rounded-md text-whie md:w-auto w-full">
-            Submit
+          <button className="bg-white text-green-600 hover:bg-green-50 font-semibold duration-300 px-6 py-3 rounded-lg shadow-lg md:w-auto w-full transition-all">
+            Subscribe
           </button>
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:gird-cols-3 lg:grid-cols-4 gap-6 sm:px-8 px-5 py-16 sm:text-center">
-        <ul className="px-5 text-center sm:text-start flex sm:block flex-col items-center">
-          <img
-            src="https://shopo.quomodothemes.website/assets/images/logo.svg"
-            alt=""
-            style={{ filter: "brightness(0) invert(1)" }}
-          />
-          <br />
-          <p>The home and elements needeed to create beatiful products.</p>
-          <div className="flex items-center mt-[15px]">
-            <AiFillFacebook size={25} className="cursor-pointer" />
-            <AiOutlineTwitter
-              size={25}
-              style={{ marginLeft: "15px", cursor: "pointer" }}
-            />
-            <AiFillInstagram
-              size={25}
-              style={{ marginLeft: "15px", cursor: "pointer" }}
-            />
-            <AiFillYoutube
-              size={25}
-              style={{ marginLeft: "15px", cursor: "pointer" }}
-            />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:px-12 px-4 py-16">
+        <div className="text-center sm:text-start">
+          <div className="flex items-center justify-center sm:justify-start mb-4">
+            <h2 className="text-3xl font-bold text-green-400">DevXCom</h2>
           </div>
-        </ul>
+          <p className="text-gray-300 mb-6 leading-relaxed">
+            Your trusted partner for innovative e-commerce solutions. 
+            Creating beautiful digital experiences that drive success.
+          </p>
+          <div className="flex items-center justify-center sm:justify-start space-x-4">
+            <div className="p-2 bg-green-600 rounded-full hover:bg-green-500 transition-colors cursor-pointer">
+              <AiFillFacebook size={20} className="text-white" />
+            </div>
+            <div className="p-2 bg-green-600 rounded-full hover:bg-green-500 transition-colors cursor-pointer">
+              <AiOutlineTwitter size={20} className="text-white" />
+            </div>
+            <div className="p-2 bg-green-600 rounded-full hover:bg-green-500 transition-colors cursor-pointer">
+              <AiFillInstagram size={20} className="text-white" />
+            </div>
+            <div className="p-2 bg-green-600 rounded-full hover:bg-green-500 transition-colors cursor-pointer">
+              <AiFillYoutube size={20} className="text-white" />
+            </div>
+          </div>
+        </div>
 
-        <ul className="text-center sm:text-start">
-          <h1 className="mb-1 font-semibold">Company</h1>
-          {footerProductLinks.map((link, index) => (
-            <li key={index}>
-              <Link
-                className="text-gray-400 hover:text-teal-400 duration-300
-                   text-sm cursor-pointer leading-6"
-                to={link.link}
-              >
-                {link.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <div className="text-center sm:text-start">
+          <h3 className="text-xl font-semibold text-green-400 mb-4">Company</h3>
+          <ul className="space-y-2">
+            {footerProductLinks.map((link, index) => (
+              <li key={index}>
+                <Link
+                  className="text-gray-300 hover:text-green-400 duration-300 text-sm cursor-pointer leading-6 transition-colors"
+                  to={link.link}
+                >
+                  {link.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
 
-        <ul className="text-center sm:text-start">
-          <h1 className="mb-1 font-semibold">Shop</h1>
-          {footercompanyLinks.map((link, index) => (
-            <li key={index}>
-              <Link
-                className="text-gray-400 hover:text-teal-400 duration-300
-                   text-sm cursor-pointer leading-6"
-                to={link.link}
-              >
-                {link.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <div className="text-center sm:text-start">
+          <h3 className="text-xl font-semibold text-green-400 mb-4">Shop</h3>
+          <ul className="space-y-2">
+            {footercompanyLinks.map((link, index) => (
+              <li key={index}>
+                <Link
+                  className="text-gray-300 hover:text-green-400 duration-300 text-sm cursor-pointer leading-6 transition-colors"
+                  to={link.link}
+                >
+                  {link.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
 
-        <ul className="text-center sm:text-start">
-          <h1 className="mb-1 font-semibold">Support</h1>
-          {footerSupportLinks.map((link, index) => (
-            <li key={index}>
-              <Link
-                className="text-gray-400 hover:text-teal-400 duration-300
-                   text-sm cursor-pointer leading-6"
-                to={link.link}
-              >
-                {link.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <div className="text-center sm:text-start">
+          <h3 className="text-xl font-semibold text-green-400 mb-4">Support</h3>
+          <ul className="space-y-2">
+            {footerSupportLinks.map((link, index) => (
+              <li key={index}>
+                <Link
+                  className="text-gray-300 hover:text-green-400 duration-300 text-sm cursor-pointer leading-6 transition-colors"
+                  to={link.link}
+                >
+                  {link.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
 
-      <div
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10
-         text-center pt-2 text-gray-400 text-sm pb-8"
-      >
-        <span>© 2020 Becodemy. All rights reserved.</span>
-        <span>Terms · Privacy Policy</span>
-        <div className="sm:block flex items-center justify-center w-full">
-          <img
-            src="https://hamart-shop.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Ffooter-payment.a37c49ac.png&w=640&q=75"
-            alt=""
-          />
+      <div className="border-t border-gray-800">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 text-center pt-6 pb-8 px-4 sm:px-12">
+          <div className="text-gray-400 text-sm">
+            <span>© 2025 DevXCom. All rights reserved.</span>
+          </div>
+          <div className="flex items-center justify-center space-x-4 text-gray-400 text-sm">
+            <Link to="/terms" className="hover:text-green-400 transition-colors">Terms</Link>
+            <span>•</span>
+            <Link to="/privacy" className="hover:text-green-400 transition-colors">Privacy Policy</Link>
+          </div>
+          <div className="flex items-center justify-center">
+            <div className="bg-gray-800 rounded-lg p-3">
+              <img
+                src="https://hamart-shop.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Ffooter-payment.a37c49ac.png&w=640&q=75"
+                alt="Payment Methods"
+                className="h-6 opacity-70"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>

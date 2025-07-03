@@ -5,7 +5,7 @@ import {
   AiOutlineDelete,
 } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { server } from "../../server";
+import { backendUrl, server } from "../../server";
 import styles from "../../styles/styles";
 import { DataGrid } from "@mui/x-data-grid";
 import { Button } from "@material-ui/core";
@@ -84,7 +84,7 @@ const ProfileContent = ({ active }) => {
           <div className="flex justify-center w-full">
             <div className="relative">
               <img
-                src={`${user?.avatar?.url}`}
+                src={`${backendUrl}${user?.avatar}`}
                 className="w-[150px] h-[150px] rounded-full object-cover border-[3px] border-[#3ad132]"
                 alt=""
               />

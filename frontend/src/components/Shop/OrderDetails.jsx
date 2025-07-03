@@ -4,7 +4,7 @@ import { BsFillBagFill } from "react-icons/bs";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllOrdersOfShop } from "../../redux/actions/order";
-import { server } from "../../server";
+import { backendUrl, server } from "../../server";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -66,12 +66,12 @@ const OrderDetails = () => {
     <div className={`py-4 min-h-screen ${styles.section}`}>
       <div className="w-full flex items-center justify-between">
         <div className="flex items-center">
-          <BsFillBagFill size={30} color="crimson" />
+          <BsFillBagFill size={30} color="green" />
           <h1 className="pl-2 text-[25px]">Order Details</h1>
         </div>
         <Link to="/dashboard-orders">
           <div
-            className={`${styles.button} !bg-[#fce1e6] !rounded-[4px] text-[#e94560] font-[600] !h-[45px] text-[18px]`}
+            className={`${styles.button} !bg-[green] !rounded-[4px] text-[white] font-[600] !h-[45px] text-[18px]`}
           >
             Order List
           </div>
@@ -94,7 +94,7 @@ const OrderDetails = () => {
         data?.cart.map((item, index) => (
           <div className="w-full flex items-start mb-5">
             <img
-              src={`${item.images[0]?.url}`}
+              src={`${backendUrl}${item.images[0]}`}
               alt=""
               className="w-[80x] h-[80px]"
             />
@@ -194,7 +194,7 @@ const OrderDetails = () => {
       }
 
       <div
-        className={`${styles.button} mt-5 !bg-[#FCE1E6] !rounded-[4px] text-[#E94560] font-[600] !h-[45px] text-[18px]`}
+        className={`${styles.button} mt-5 !bg-[green] !rounded-[4px] text-[white] font-[600] !h-[45px] text-[18px]`}
         onClick={data?.status !== "Processing refund" ? orderUpdateHandler : refundOrderUpdateHandler}
       >
         Update Status

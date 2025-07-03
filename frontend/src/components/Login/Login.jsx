@@ -32,7 +32,7 @@ const Login = () => {
     <div className="min-h-screen bg-white flex flex-col justify-center py-12 sm:px-6 lg:px-8">
      <div className="border sm:mx-auto sm:w-full sm:max-w-md rounded-xl">
      <div className="">
-        <h2 className="mt-2 text-center text-3xl font-extrabold text-gray-900">
+        <h2 className="mt-4 text-center text-3xl font-extrabold text-gray-900">
           Login to your account
         </h2>
       </div>

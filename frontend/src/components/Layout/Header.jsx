@@ -16,6 +16,7 @@ import { useSelector } from "react-redux";
 import Cart from "../cart/Cart";
 import Wishlist from "../Wishlist/Wishlist";
 import { RxCross1 } from "react-icons/rx";
+import { backendUrl } from "../../server";
 
 const Header = ({ activeHeading }) => {
   const { isAuthenticated, user } = useSelector((state) => state.user);
@@ -43,24 +44,25 @@ const Header = ({ activeHeading }) => {
     setSearchData(filteredProducts);
   };
 
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 70) {
-      setActive(true);
-    } else {
-      setActive(false);
-    }
-  });
+  // window.addEventListener("scroll", () => {
+  //   if (window.scrollY > 70) {
+  //     setActive(true);
+  //   } else {
+  //     setActive(false);
+  //   }
+  // });
 
   return (
     <>
       <div className={`${styles.section}`}>
-        <div className="hidden 800px:h-[50px] 800px:my-[20px] 800px:flex items-center justify-between">
+        <div className="hidden 800px:h-[60px] 800px:my-[20px] 800px:flex items-center justify-between">
           <div>
             <Link to="/">
-              <img
-                src="https://shopo.quomodothemes.website/assets/images/logo.svg"
-                alt=""
-              />
+              <div className="flex items-center">
+                <h1 className="text-4xl font-bold text-green-600 hover:text-green-700 transition-colors">
+                  DevXCom
+                </h1>
+              </div>
             </Link>
           </div>
           {/* search box */}
@@ -70,25 +72,25 @@ const Header = ({ activeHeading }) => {
               placeholder="Search Product..."
               value={searchTerm}
               onChange={handleSearchChange}
-              className="h-[40px] w-full px-2 border-[#3957db] border-[2px] rounded-md"
+              className="h-[45px] w-full px-4 border-[2px] border-green-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent shadow-sm"
             />
             <AiOutlineSearch
-              size={30}
-              className="absolute right-2 top-1.5 cursor-pointer"
+              size={22}
+              className="absolute right-3 top-3 cursor-pointer text-green-600"
             />
             {searchData && searchData.length !== 0 ? (
-              <div className="absolute min-h-[30vh] bg-slate-50 shadow-sm-2 z-[9] p-4">
+              <div className="absolute min-h-[30vh] bg-white shadow-xl z-[9] p-4 rounded-lg border border-green-200 mt-1 max-h-[60vh] overflow-y-auto">
                 {searchData &&
                   searchData.map((i, index) => {
                     return (
-                      <Link to={`/product/${i._id}`}>
-                        <div className="w-full flex items-start-py-3">
+                      <Link to={`/product/${i._id}`} key={index}>
+                        <div className="w-full flex items-center py-3 hover:bg-green-50 rounded-lg px-2 transition-colors">
                           <img
-                            src={`${i.images[0]?.url}`}
+                            src={`${backendUrl}${i.images[0]}`}
                             alt=""
-                            className="w-[40px] h-[40px] mr-[10px]"
+                            className="w-[40px] h-[40px] mr-[10px] rounded-md object-cover"
                           />
-                          <h1>{i.name}</h1>
+                          <h1 className="text-gray-700 hover:text-green-600">{i.name}</h1>
                         </div>
                       </Link>
                     );
@@ -97,9 +99,9 @@ const Header = ({ activeHeading }) => {
             ) : null}
           </div>
 
-          <div className={`${styles.button}`}>
+          <div className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 px-6 py-3 rounded-lg shadow-lg transition-all duration-300">
             <Link to={`${isSeller ? "/dashboard" : "/shop-create"}`}>
-              <h1 className="text-[#fff] flex items-center">
+              <h1 className="text-white flex items-center font-semibold">
                 {isSeller ? "Go Dashboard" : "Become Seller"}{" "}
                 <IoIosArrowForward className="ml-1" />
               </h1>
@@ -109,24 +111,24 @@ const Header = ({ activeHeading }) => {
       </div>
       <div
         className={`${
-          active === true ? "shadow-sm fixed top-0 left-0 z-10" : null
-        } transition hidden 800px:flex items-center justify-between w-full bg-[#3321c8] h-[70px]`}
+          active === true ? "shadow-lg fixed top-0 left-0 z-10" : null
+        } transition hidden 800px:flex items-center justify-between w-full bg-gradient-to-r from-green-600 to-green-700 h-[70px]`}
       >
         <div
           className={`${styles.section} relative ${styles.noramlFlex} justify-between`}
         >
           {/* categories */}
           <div onClick={() => setDropDown(!dropDown)}>
-            <div className="relative h-[60px] mt-[10px] w-[270px] hidden 1000px:block">
-              <BiMenuAltLeft size={30} className="absolute top-3 left-2" />
+            <div className="relative h-[50px] mt-[10px] w-[270px] hidden 1000px:block">
+              <BiMenuAltLeft size={30} className="absolute top-2 left-2 text-green-600" />
               <button
-                className={`h-[100%] w-full flex justify-between items-center pl-10 bg-white font-sans text-lg font-[500] select-none rounded-t-md`}
+                className={`h-[100%] w-full flex justify-between items-center pl-10 bg-white hover:bg-green-50 font-sans text-lg font-[500] select-none rounded-lg shadow-sm transition-colors`}
               >
                 All Categories
               </button>
               <IoIosArrowDown
                 size={20}
-                className="absolute right-2 top-4 cursor-pointer"
+                className="absolute right-2 top-3 cursor-pointer text-green-600"
                 onClick={() => setDropDown(!dropDown)}
               />
               {dropDown ? (
@@ -145,11 +147,11 @@ const Header = ({ activeHeading }) => {
           <div className="flex">
             <div className={`${styles.noramlFlex}`}>
               <div
-                className="relative cursor-pointer mr-[15px]"
+                className="relative cursor-pointer mr-[15px] hover:bg-green-500 p-2 rounded-lg transition-colors"
                 onClick={() => setOpenWishlist(true)}
               >
-                <AiOutlineHeart size={30} color="rgb(255 255 255 / 83%)" />
-                <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
+                <AiOutlineHeart size={28} color="white" />
+                <span className="absolute -right-1 -top-1 rounded-full bg-green-400 w-5 h-5 flex items-center justify-center text-white font-bold text-[11px] shadow-md">
                   {wishlist && wishlist.length}
                 </span>
               </div>
@@ -157,32 +159,32 @@ const Header = ({ activeHeading }) => {
 
             <div className={`${styles.noramlFlex}`}>
               <div
-                className="relative cursor-pointer mr-[15px]"
+                className="relative cursor-pointer mr-[15px] hover:bg-green-500 p-2 rounded-lg transition-colors"
                 onClick={() => setOpenCart(true)}
               >
                 <AiOutlineShoppingCart
-                  size={30}
-                  color="rgb(255 255 255 / 83%)"
+                  size={28}
+                  color="white"
                 />
-                <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
+                <span className="absolute -right-1 -top-1 rounded-full bg-green-400 w-5 h-5 flex items-center justify-center text-white font-bold text-[11px] shadow-md">
                   {cart && cart.length}
                 </span>
               </div>
             </div>
 
             <div className={`${styles.noramlFlex}`}>
-              <div className="relative cursor-pointer mr-[15px]">
+              <div className="relative cursor-pointer mr-[15px] hover:bg-green-500 p-2 rounded-lg transition-colors">
                 {isAuthenticated ? (
                   <Link to="/profile">
                     <img
-                      src={`${user?.avatar?.url}`}
-                      className="w-[35px] h-[35px] rounded-full"
+                      src={`${backendUrl}${user?.avatar}`}
+                      className="w-[35px] h-[35px] rounded-full border-2 border-green-400"
                       alt=""
                     />
                   </Link>
                 ) : (
                   <Link to="/login">
-                    <CgProfile size={30} color="rgb(255 255 255 / 83%)" />
+                    <CgProfile size={28} color="white" />
                   </Link>
                 )}
               </div>
@@ -202,34 +204,32 @@ const Header = ({ activeHeading }) => {
       {/* mobile header */}
       <div
         className={`${
-          active === true ? "shadow-sm fixed top-0 left-0 z-10" : null
+          active === true ? "shadow-lg fixed top-0 left-0 z-10" : null
         }
-      w-full h-[60px] bg-[#fff] z-50 top-0 left-0 shadow-sm 800px:hidden`}
+      w-full h-[70px] bg-gradient-to-r from-green-600 to-green-700 z-50 top-0 left-0 shadow-sm 800px:hidden`}
       >
-        <div className="w-full flex items-center justify-between">
+        <div className="w-full flex items-center justify-between h-full px-4">
           <div>
             <BiMenuAltLeft
-              size={40}
-              className="ml-4"
+              size={35}
+              className="text-white"
               onClick={() => setOpen(true)}
             />
           </div>
           <div>
             <Link to="/">
-              <img
-                src="https://shopo.quomodothemes.website/assets/images/logo.svg"
-                alt=""
-                className="mt-3 cursor-pointer"
-              />
+              <h1 className="text-2xl font-bold text-white">
+                DevXCom
+              </h1>
             </Link>
           </div>
           <div>
             <div
-              className="relative mr-[20px]"
+              className="relative"
               onClick={() => setOpenCart(true)}
             >
-              <AiOutlineShoppingCart size={30} />
-              <span class="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px]  leading-tight text-center">
+              <AiOutlineShoppingCart size={30} className="text-white" />
+              <span className="absolute -right-1 -top-1 rounded-full bg-green-400 w-5 h-5 flex items-center justify-center text-white font-bold text-[11px] shadow-md">
                 {cart && cart.length}
               </span>
             </div>
@@ -246,49 +246,53 @@ const Header = ({ activeHeading }) => {
           <div
             className={`fixed w-full bg-[#0000005f] z-20 h-full top-0 left-0`}
           >
-            <div className="fixed w-[70%] bg-[#fff] h-screen top-0 left-0 z-10 overflow-y-scroll">
-              <div className="w-full justify-between flex pr-3">
-                <div>
+            <div className="fixed w-[70%] bg-white h-screen top-0 left-0 z-10 overflow-y-scroll">
+              <div className="w-full justify-between flex pr-3 bg-green-600 py-4">
+                <div className="flex items-center">
                   <div
-                    className="relative mr-[15px]"
+                    className="relative mr-[15px] ml-3"
                     onClick={() => setOpenWishlist(true) || setOpen(false)}
                   >
-                    <AiOutlineHeart size={30} className="mt-5 ml-3" />
-                    <span class="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px]  leading-tight text-center">
+                    <AiOutlineHeart size={30} className="text-white" />
+                    <span className="absolute -right-1 -top-1 rounded-full bg-green-400 w-5 h-5 flex items-center justify-center text-white font-bold text-[11px] shadow-md">
                       {wishlist && wishlist.length}
                     </span>
                   </div>
+                  <h2 className="text-white text-lg font-semibold">DevXCom</h2>
                 </div>
                 <RxCross1
                   size={30}
-                  className="ml-4 mt-5"
+                  className="text-white cursor-pointer"
                   onClick={() => setOpen(false)}
                 />
               </div>
 
-              <div className="my-8 w-[92%] m-auto h-[40px relative]">
+              <div className="my-8 w-[92%] m-auto h-[40px] relative">
                 <input
                   type="search"
                   placeholder="Search Product..."
-                  className="h-[40px] w-full px-2 border-[#3957db] border-[2px] rounded-md"
+                  className="h-[45px] w-full px-4 border-[2px] border-green-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                   value={searchTerm}
                   onChange={handleSearchChange}
                 />
+                <AiOutlineSearch
+                  size={22}
+                  className="absolute right-3 top-3 text-green-600"
+                />
                 {searchData && (
-                  <div className="absolute bg-[#fff] z-10 shadow w-full left-0 p-3">
-                    {searchData.map((i) => {
+                  <div className="absolute bg-white z-10 shadow-lg w-full left-0 p-3 rounded-lg border border-green-200 mt-1">
+                    {searchData.map((i, index) => {
                       const d = i.name;
-
                       const Product_name = d.replace(/\s+/g, "-");
                       return (
-                        <Link to={`/product/${Product_name}`}>
-                          <div className="flex items-center">
+                        <Link to={`/product/${Product_name}`} key={index}>
+                          <div className="flex items-center py-2 hover:bg-green-50 rounded px-2">
                             <img
-                              src={i.image_Url[0]?.url}
+                              src={`${backendUrl}${i.images[0]}`}
                               alt=""
-                              className="w-[50px] mr-2"
+                              className="w-[50px] h-[50px] mr-2 rounded object-cover"
                             />
-                            <h5>{i.name}</h5>
+                            <h5 className="text-gray-700">{i.name}</h5>
                           </div>
                         </Link>
                       );
@@ -298,9 +302,9 @@ const Header = ({ activeHeading }) => {
               </div>
 
               <Navbar active={activeHeading} />
-              <div className={`${styles.button} ml-4 !rounded-[4px]`}>
+              <div className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 ml-4 px-4 py-3 rounded-lg shadow-lg transition-all duration-300 mr-4">
                 <Link to="/shop-create">
-                  <h1 className="text-[#fff] flex items-center">
+                  <h1 className="text-white flex items-center font-semibold">
                     Become Seller <IoIosArrowForward className="ml-1" />
                   </h1>
                 </Link>
@@ -314,9 +318,9 @@ const Header = ({ activeHeading }) => {
                   <div>
                     <Link to="/profile">
                       <img
-                        src={`${user.avatar?.url}`}
+                        src={`${backendUrl}${user?.avatar}`}
                         alt=""
-                        className="w-[60px] h-[60px] rounded-full border-[3px] border-[#0eae88]"
+                        className="w-[60px] h-[60px] rounded-full border-[3px] border-green-500"
                       />
                     </Link>
                   </div>
@@ -324,13 +328,13 @@ const Header = ({ activeHeading }) => {
                   <>
                     <Link
                       to="/login"
-                      className="text-[18px] pr-[10px] text-[#000000b7]"
+                      className="text-[18px] pr-[10px] text-green-600 font-semibold"
                     >
                       Login /
                     </Link>
                     <Link
                       to="/sign-up"
-                      className="text-[18px] text-[#000000b7]"
+                      className="text-[18px] text-green-600 font-semibold"
                     >
                       Sign up
                     </Link>

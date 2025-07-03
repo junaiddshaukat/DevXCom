@@ -24,7 +24,7 @@ const Navbar = ({ active }) => {
   }, [])
 
   return (
-    <div className={`block ${windowWidth >= 800 ? styles.normalFlex : ""}`}>
+    <div className={`block mt-7 ${windowWidth >= 800 ? styles.normalFlex : ""}`}>
       {navItems &&
         navItems.map((i, index) => (
           <div className="flex" key={index}>
