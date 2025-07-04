@@ -372,17 +372,17 @@ const SellerInbox = ({
             >
               {item.sender !== sellerId && (
                 <img
-                  src={`getImageUrl(userData?.avatar)`}
+                  src={getImageUrl(userData?.avatar)}
                   className="w-[40px] h-[40px] rounded-full mr-3"
                   alt=""
                 />
               )}
-              {item.images && (
+              {/* {item.images && (
                 <img
                   src={getImageUrl(item.images)}
                   className="w-[300px] h-[300px] object-cover rounded-[10px] ml-2 mb-2"
                 />
-              )}
+              )} */}
               {item.text !== "" && (
                 <div>
                   <div
