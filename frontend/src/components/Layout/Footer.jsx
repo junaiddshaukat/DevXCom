@@ -15,23 +15,13 @@ import {
 const Footer = () => {
   return (
     <div className="bg-gradient-to-b from-gray-900 to-black text-white">
-      <div className="md:flex md:justify-between md:items-center sm:px-12 px-4 bg-gradient-to-r from-green-600 to-green-700 py-8">
-        <h1 className="lg:text-4xl text-3xl md:mb-0 mb-6 lg:leading-normal font-semibold md:w-2/5">
-          <span className="text-white">Subscribe</span> for latest news{" "}
-          <br />
-          events and exclusive offers
+      <div className="flex flex-col items-center justify-center text-center sm:px-12 px-4 bg-gradient-to-r from-green-600 to-green-700 py-8">
+        <h1 className="lg:text-4xl text-3xl mb-4 lg:leading-normal font-semibold max-w-3xl">
+          <span className="text-white">Join the DevXCom Community</span>
         </h1>
-        <div className="flex flex-col sm:flex-row gap-3">
-          <input
-            type="text"
-            required
-            placeholder="Enter your email..."
-            className="text-gray-800 sm:w-72 w-full py-3 px-4 rounded-lg border-0 focus:outline-none focus:ring-2 focus:ring-green-400 shadow-lg"
-          />
-          <button className="bg-white text-green-600 hover:bg-green-50 font-semibold duration-300 px-6 py-3 rounded-lg shadow-lg md:w-auto w-full transition-all">
-            Subscribe
-          </button>
-        </div>
+        <p className="text-gray-100 text-lg max-w-2xl">
+          Connect, collaborate, and grow with fellow tech enthusiasts and innovators.
+        </p>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:px-12 px-4 py-16">
         <div className="text-center sm:text-start">
