@@ -187,6 +187,11 @@ router.put(
       async function updateOrder(id, qty) {
         const product = await Product.findById(id);
 
+        if (!product) {
+          console.log(`Product with id ${id} not found, skipping stock update`);
+          return;
+        }
+
         product.stock -= qty;
         product.sold_out += qty;
 
@@ -262,6 +267,11 @@ router.put(
 
       async function updateOrder(id, qty) {
         const product = await Product.findById(id);
+
+        if (!product) {
+          console.log(`Product with id ${id} not found, skipping stock update`);
+          return;
+        }
 
         product.stock += qty;
         product.sold_out -= qty;

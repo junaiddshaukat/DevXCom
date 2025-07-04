@@ -20,9 +20,10 @@ import {
 import { addToCart } from "../../redux/actions/cart";
 import { toast } from "react-toastify";
 import Ratings from "./Ratings";
+import CountDown from "../Events/Countdown";
 import axios from "axios";
 
-const ProductDetails = ({ data }) => {
+const ProductDetails = ({ data, isEvent }) => {
   const { wishlist } = useSelector((state) => state.wishlist);
   const { cart } = useSelector((state) => state.cart);
   const { user, isAuthenticated } = useSelector((state) => state.user);
@@ -177,9 +178,36 @@ const ProductDetails = ({ data }) => {
                       {data.description}
                     </p>
                     
+                    {/* Event-specific information */}
+                    {isEvent && (
+                      <div className="bg-gradient-to-r from-red-50 to-orange-50 border-l-4 border-red-400 p-4 rounded-lg">
+                        <h3 className="text-lg font-semibold text-red-800 mb-2">🎉 Limited Time Event!</h3>
+                        <div className="grid grid-cols-2 gap-4 text-sm">
+                          <div>
+                            <span className="text-gray-600">Starts:</span>
+                            <p className="font-medium text-gray-800">
+                              {data.start_Date ? new Date(data.start_Date).toLocaleDateString() : 'N/A'}
+                            </p>
+                          </div>
+                          <div>
+                            <span className="text-gray-600">Ends:</span>
+                            <p className="font-medium text-gray-800">
+                              {data.Finish_Date ? new Date(data.Finish_Date).toLocaleDateString() : 'N/A'}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="mt-4">
+                          <CountDown data={data} />
+                        </div>
+                      </div>
+                    )}
+                    
                     {/* Price Section */}
-                    <div className="flex items-end gap-4 py-4">
-                      <span className="text-4xl font-bold text-green-600">
+                    <div className={`flex items-end gap-4 py-4 ${isEvent ? 'bg-gradient-to-r from-red-50 to-orange-50 rounded-lg p-4 border-l-4 border-orange-400' : ''}`}>
+                      {isEvent && (
+                        <span className="text-red-600 font-semibold text-sm mr-2">🔥 EVENT PRICE:</span>
+                      )}
+                      <span className={`text-4xl font-bold ${isEvent ? 'text-red-600' : 'text-green-600'}`}>
                         ${data.discountPrice}
                       </span>
                       {data.originalPrice && data.originalPrice !== data.discountPrice && (
@@ -188,7 +216,7 @@ const ProductDetails = ({ data }) => {
                         </span>
                       )}
                       {data.originalPrice && data.originalPrice !== data.discountPrice && (
-                        <span className="bg-green-100 text-green-800 text-sm font-medium px-3 py-1 rounded-full">
+                        <span className={`${isEvent ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'} text-sm font-medium px-3 py-1 rounded-full`}>
                           Save ${(data.originalPrice - data.discountPrice).toFixed(2)}
                         </span>
                       )}
@@ -330,7 +358,7 @@ const ProductDetailsInfo = ({
           }`}
           onClick={() => setActive(2)}
         >
-          Reviews ({data.reviews.length})
+          Reviews ({data.reviews?.length || 0})
         </button>
         <button
           className={`flex-1 px-6 py-4 text-center font-semibold transition-all duration-200 ${
@@ -369,7 +397,7 @@ const ProductDetailsInfo = ({
                 <ul className="space-y-2 text-blue-700">
                   <li>Total Sold: {data.sold_out} items</li>
                   <li>Average Rating: {data.ratings?.toFixed(1) || "No ratings"}</li>
-                  <li>Reviews: {data.reviews.length} reviews</li>
+                  <li>Reviews: {data.reviews?.length || 0} reviews</li>
                 </ul>
               </div>
             </div>
@@ -380,7 +408,7 @@ const ProductDetailsInfo = ({
           <div className="space-y-6">
             <h3 className="text-2xl font-bold text-gray-900 mb-6">Customer Reviews</h3>
             
-            {data.reviews.length > 0 ? (
+            {data.reviews && data.reviews.length > 0 ? (
               <div className="space-y-6 max-h-96 overflow-y-auto">
                 {data.reviews.map((item, index) => (
                   <div key={index} className="bg-gray-50 rounded-xl p-6 border border-gray-200">

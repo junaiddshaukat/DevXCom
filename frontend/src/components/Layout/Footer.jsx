@@ -17,10 +17,10 @@ const Footer = () => {
     <div className="bg-gradient-to-b from-gray-900 to-black text-white">
       <div className="flex flex-col items-center justify-center text-center sm:px-12 px-4 bg-gradient-to-r from-green-600 to-green-700 py-8">
         <h1 className="lg:text-4xl text-3xl mb-4 lg:leading-normal font-semibold max-w-3xl">
-          <span className="text-white">Join the DevXCom Community</span>
+          <span className="text-white">DevXCom</span>
         </h1>
         <p className="text-gray-100 text-lg max-w-2xl">
-          Connect, collaborate, and grow with fellow tech enthusiasts and innovators.
+Your Gateway to Exceptional E-commerce 
         </p>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:px-12 px-4 py-16">

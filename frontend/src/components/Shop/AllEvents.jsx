@@ -62,11 +62,12 @@ const AllEvents = () => {
       type: "number",
       sortable: false,
       renderCell: (params) => {
-        const d = params.row.name;
-        const product_name = d.replace(/\s+/g, "-");
+        // const d = params.row.name;
+        // const product_name = d.replace(/\s+/g, "-");
+        const id = params.row.id;
         return (
           <>
-            <Link to={`/product/${product_name}`}>
+            <Link to={`/product/${id}?isEvent=true`}>
               <Button>
                 <AiOutlineEye size={20} />
               </Button>

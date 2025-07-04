@@ -27,7 +27,7 @@ const ProductDetailsPage = () => {
   return (
     <div>
       <Header />
-      <ProductDetails data={data} />
+      <ProductDetails data={data} isEvent={eventData !== null} />
         {
           !eventData && (
             <>
