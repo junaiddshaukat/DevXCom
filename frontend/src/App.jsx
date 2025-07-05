@@ -19,6 +19,7 @@ import {
   TrackOrderPage,
   UserInbox
 } from "./Routes.js";
+import ScrollToTop from "./components/ScrollToTop.jsx";
 import { ToastContainer } from "react-toastify";
 import { useEffect, useState } from "react";
 import ProtectedRoute from "../routes/ProtectedRoute.jsx";
@@ -78,6 +79,7 @@ const App = () => {
 
   return (
     <BrowserRouter>
+      <ScrollToTop />
       {stripeApiKey && (
         <Elements stripe={loadStripe(stripeApiKey)}>
           <Routes>

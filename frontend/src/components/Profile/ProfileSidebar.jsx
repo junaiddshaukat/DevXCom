@@ -21,14 +21,19 @@ const ProfileSidebar = ({ setActive, active }) => {
  const {user} = useSelector((state) => state.user);
   const logoutHandler = () => {
     axios
-      .get(`${server}/user/logout`, { withCredentials: true })
+      .post(`${server}/user/logout`, {}, { withCredentials: true })
       .then((res) => {
         toast.success(res.data.message);
-        window.location.reload(true);
+        // Clear any local storage if used
+        localStorage.removeItem("token");
+        // localStorage.removeItem("user");
         navigate("/login");
+        // Reload the page to clear all state
+        window.location.reload(true);
       })
       .catch((error) => {
-        console.log(error.response.data.message);
+        console.log(error);
+        toast.error("Logout failed");
       });
   };
   return (

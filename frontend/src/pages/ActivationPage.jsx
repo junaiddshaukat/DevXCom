@@ -5,25 +5,21 @@ import { server } from "../server";
 
 const ActivationPage = () => {
   const { activationToken } = useParams();
-  const [error, setError] = useState(null); // More detailed error state
-  const [success, setSuccess] = useState(false);
+  const [status, setStatus] = useState("loading"); // "loading", "success", "error"
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (activationToken) {
-      const activationEmail = async () => {
+      const activateAccount = async () => {
         try {
-          console.log("Sending activation token:", { activationToken });
           const res = await axios.post(
             `${server}/user/activation`,
-            {
-              activationToken,
-            },
+            { activationToken },
             { headers: { "Content-Type": "application/json" } }
           );
-          console.log("Server response:", res.data.message);
-          setSuccess(true);
+          setStatus("success");
         } catch (error) {
-          console.error("Error response:", error.response); // Log the entire error response
+          setStatus("error");
           setError(
             error.response
               ? error.response.data.message
@@ -31,9 +27,9 @@ const ActivationPage = () => {
           );
         }
       };
-      activationEmail();
+      activateAccount();
     }
-  }, []);
+  }, [activationToken]);
 
   return (
     <div
@@ -45,13 +41,9 @@ const ActivationPage = () => {
         alignItems: "center",
       }}
     >
-      {!success ? (
-        <p>Your account has been created successfully!</p>
-      ) : error ? (
-        <p>{error}</p>
-      ) : (
-        <p>Activating your account...</p>
-      )}
+      {status === "loading" && <p>Activating your account...</p>}
+      {status === "success" && <p>Your account has been activated successfully!</p>}
+      {status === "error" && <p>{error}</p>}
     </div>
   );
 };

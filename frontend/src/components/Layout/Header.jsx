@@ -334,7 +334,7 @@ const Header = ({ activeHeading }) => {
                       Login /
                     </Link>
                     <Link
-                      to="/sign-up"
+                      to="/signup"
                       className="text-[18px] text-green-600 font-semibold"
                     >
                       Sign up

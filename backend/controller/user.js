@@ -164,8 +164,8 @@ router.post(
       res.cookie("token", null, {
         expires: new Date(Date.now()),
         httpOnly: true,
-        // secure: process.env.NODE_ENV === "production",
-        // sameSite: "strict",
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       });
 
       res.status(200).json({
@@ -176,7 +176,7 @@ router.post(
       return next(new ErrorHandler(error.message, 500));
     }
   })
-);
+); 
 
 //update user info
 
