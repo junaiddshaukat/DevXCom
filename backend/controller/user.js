@@ -40,7 +40,7 @@ router.post("/create-user", upload.single("file"), async (req, res, next) => {
     };
 
     const activationToken = createActivationToken(user);
-    const activationUrl = `${process.env.NODE_ENV === "PRODUCTION" ? "https://your-frontend-url.vercel.app" : "http://localhost:5173"}/activation/${activationToken}`;
+    const activationUrl = `https://devxcom.vercel.app/activation/${activationToken}`;
 
     try {
       await sendEmail({
