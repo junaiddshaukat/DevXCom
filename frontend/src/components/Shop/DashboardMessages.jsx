@@ -203,7 +203,7 @@ const DashboardMessages = () => {
   };
 
   useEffect(() => {
-    scrollRef.current?.scrollIntoView({ beahaviour: "smooth" });
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   return (
@@ -367,7 +367,8 @@ const SellerInbox = ({
                 className={`flex w-full my-2 ${
                   item.sender === sellerId ? "justify-end" : "justify-start"
                 }`}
-                ref={scrollRef}
+                key={index}
+                ref={index === messages.length - 1 ? scrollRef : null}
               >
                 {item.sender !== sellerId && (
                   <img

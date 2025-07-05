@@ -11,7 +11,7 @@ app.use("/",express.static("uploads"));
 app.use(express.urlencoded({extended: true}));
 app.use(cors({
     origin: process.env.NODE_ENV === "production" 
-        ? ["https://devxcom.vercel.app", "https://your-custom-domain.com"] 
+        ? ["https://devxcom.vercel.app"] 
         : "http://localhost:5173",
     credentials: true, // Allow cookies to be sent with requests
 }));
@@ -35,7 +35,7 @@ const payment = require('./controller/payment.js');
 const order = require('./controller/order.js');
 const conversation = require('./controller/conversation.js');
 const message = require('./controller/message.js');
-
+// Using Routes
 app.use('/api/v2/user', user);
 app.use('/api/v2/shop', shop);
 app.use('/api/v2/product', product);
